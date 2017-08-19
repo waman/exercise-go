@@ -1,3 +1,8 @@
+// 【練習問題 1.7】
+// 関数呼び出し io.Copy(dst, src) は、src から読み込み dst へ書き込みます。
+// ストリーム全体を保持するのに十分な大きさのバッファを要求することなくレスポンスの
+// 内容を os.Stdout へコピーするために、ioutil.ReadAll の代わりにその関数を
+// 使いなさい。なお、io.Copy のエラー結果は必ず検査するようにしなさい。
 package main
 
 import (
@@ -19,6 +24,7 @@ func main(){
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "fetch: Reading %s: %v\n", url, err)
 		}
+		// 読み書きした文字数を表示
 		fmt.Printf("%d characters are read", written)
 	}
 }

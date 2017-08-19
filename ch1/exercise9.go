@@ -1,3 +1,6 @@
+// 【練習問題 1.9】
+// fetch を修正して、resp.Status に設定されている HTTP ステータスコードも
+// 表示するようにしなさい。
 package main
 
 import (

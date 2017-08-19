@@ -1,3 +1,6 @@
+// 【練習問題 1.8】
+// fetch を修正して、個々の引数の URL に接頭辞 http:// がなければ
+// 追加するようにしなさい。strings.HasPrefix を使いたくなるかもしれません。
 package main
 
 import (
