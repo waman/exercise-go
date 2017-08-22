@@ -1,3 +1,4 @@
+// lissajous は、ランダムなリサージュ図形の GIF アニメーションを生成します。
 package main
 
 import(

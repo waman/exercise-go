@@ -1,3 +1,4 @@
+// fetchall は、URL を平行に取り出して、時間と大きさを表示します。
 package main
 
 import (

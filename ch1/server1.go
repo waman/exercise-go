@@ -1,3 +1,4 @@
+// server1 は、最小限の「echo」サーバです。
 package main
 
 import (

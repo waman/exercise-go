@@ -1,3 +1,4 @@
+// fetch は URL にある内容を表示します。
 package main
 
 import (
