@@ -2,4 +2,6 @@
 */*.exe
 */*.gif
 */*.html
+*/*.svg
+*/*.png
 .idea/workspace.xml
