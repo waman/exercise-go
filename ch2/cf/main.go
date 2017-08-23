@@ -5,7 +5,10 @@ import (
 	"os"
 	"strconv"
 	"fmt"
+
 	"github.com/waman/exercise-go/ch2/tempconv"
+	// プロジェクトのルートディレクトリを GOPATH に設定しておけば
+	// ch2/tempconv でインポートできると思うが・・・
 )
 
 func main(){
