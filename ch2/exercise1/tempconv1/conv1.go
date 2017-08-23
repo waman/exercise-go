@@ -1,10 +1,10 @@
 package tempconv1
 
 // KToC は絶対温度を摂氏へ変換します
-func KToC(t Kelvin) Celsius { return Celsius(t - 273.15) }
+func KToC(t Kelvin) Celsius { return Celsius(float64(t) - float64(Freezing)) }
 
 // CToK は摂氏を絶対温度へ変換します
-func CToK(c Celsius) Kelvin { return Kelvin(c + 273.15) }
+func CToK(c Celsius) Kelvin { return Kelvin(float64(c) + float64(Freezing)) }
 
 // CToF は摂氏を華氏へ変換します
 func CToF(c Celsius) Fahrenheit { return Fahrenheit(c*9/5 + 32) }
