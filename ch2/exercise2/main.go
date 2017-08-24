@@ -51,8 +51,11 @@ func main(){
 	args := os.Args[1:]
 	if len(args) == 0 {
 		input := bufio.NewScanner(os.Stdin)
-		for fmt.Print("> "); input.Scan(); fmt.Print("> ") {
+
+		fmt.Print("> ")
+		for input.Scan() {
 			calculateConversions(input.Text())
+			fmt.Print("> ")
 		}
 	} else {
 		for _, arg := range args {
