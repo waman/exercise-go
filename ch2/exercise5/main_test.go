@@ -4,13 +4,13 @@
 // その性能を評価しなさい。
 //
 // 【注意】
-// PopCount の各バージョンのは main.go に書いてます。
+// PopCount の各バージョンの実装は main.go に書いてます。
 //
 // 【実行方法】
 // > cd ch2/exercise5
 // > go test -bench=.
 //
-// 【結果】
+// 【結果例】
 // ・通常のバージョン : 0.86 ns/op
 // ・ビットクリアによるバージョン : 305 ns/op
 package exercise3
@@ -23,8 +23,8 @@ import (
 func Testビットクリアによるバージョンが正しい結果を与える(t *testing.T){
 	for i := 0; i < 100; i++ {
 		x := rand.Uint64()
-		if PopCount(x) != PopCountWithBitClear(x) {
-			t.Errorf("結果が違います: %s: %s != %s", x, PopCount(x), PopCountWithBitClear(x))
+		if y, z := PopCount(x), PopCountWithBitClear(x); y != z {
+			t.Errorf("結果が違います: %s: %s != %s", x, y, z)
 		}
 	}
 }

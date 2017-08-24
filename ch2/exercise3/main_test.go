@@ -4,13 +4,13 @@
 // 性能を体系的に比較する方法を説明しています。）
 //
 // 【注意】
-// PopCount の各バージョンのは main.go に書いてます。
+// PopCount の各バージョンの実装は main.go に書いてます。
 //
 // 【実行方法】
 // > cd ch2/exercise3
 // > go test -bench=.
 //
-// 【結果】
+// 【結果例】
 // ・単一の式を使ったバージョン : 0.87 ns/op
 // ・ループを使ったバージョン : 113 ns/op
 package exercise3
@@ -23,8 +23,8 @@ import (
 func Test単一の式を使ったバージョンとループを使ったバージョンの結果が等しい(t *testing.T){
 	for i := 0; i < 100; i++ {
 		x := rand.Uint64()
-		if PopCount(x) != PopCountByLoop(x) {
-			t.Errorf("結果が違います: %s: %s != %s", x, PopCount(x), PopCountByLoop(x))
+		if y, z := PopCount(x), PopCountByLoop(x); y != z {
+			t.Errorf("結果が違います: %s: %s != %s", x, y, z)
 		}
 	}
 }

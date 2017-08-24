@@ -4,13 +4,13 @@
 // テーブル参照を行うバージョンと性能を比較しなさい。
 //
 // 【注意】
-// PopCount の各バージョンのは main.go に書いてます。
+// PopCount の各バージョンの実装は main.go に書いてます。
 //
 // 【実行方法】
 // > cd ch2/exercise4
 // > go test -bench=.
 //
-// 【結果】
+// 【結果例】
 // ・テーブル参照を行うバージョン : 0.87 ns/op
 // ・テーブル参照を行わないバージョン : 295 ns/op
 package exercise3
@@ -23,8 +23,8 @@ import (
 func Testテーブル参照を行ったバージョンと行っていないバージョンの結果が等しい(t *testing.T){
 	for i := 0; i < 100; i++ {
 		x := rand.Uint64()
-		if PopCount(x) != PopCountWithoutTable(x) {
-			t.Errorf("結果が違います: %s: %s != %s", x, PopCount(x), PopCountWithoutTable(x))
+		if y, z := PopCount(x), PopCountWithoutTable(x); y != z {
+			t.Errorf("結果が違います: %s: %s != %s", x, y, z)
 		}
 	}
 }

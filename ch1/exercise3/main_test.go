@@ -8,7 +8,7 @@
 // > cd ch1/exercise3
 // > go test -bench=.
 //
-// 【結果】
+// 【結果例】
 // ・非効率な可能性のあるバージョン : 43172 ns/op
 // ・strings.Join : 4157 ns/op
 package exercise3
