@@ -5,13 +5,12 @@
 // を説明しています）。
 //
 // 【実行方法】
-// > cd ch1\exercise3
+// > cd ch1/exercise3
 // > go test -bench=.
 //
 // 【結果】
-// ・非効率な可能性のあるバージョン : 28324 ns/op
-// ・strings.Join : 3959 ns/op
-// 7倍以上の差
+// ・非効率な可能性のあるバージョン : 43172 ns/op
+// ・strings.Join : 4157 ns/op
 package exercise3
 
 import (
@@ -21,19 +20,20 @@ import (
 
 // 連結を行う文字列のスライス。
 // 練習問題 1.3 の時点では出てきてませんが。
-func getSampleSliceOfString() []string {
-	var arg []string
+var strSlice []string
+
+// 文字列のスライスの初期化
+// init() メソッドも練習問題 1.3 の時点で出てきませんが。
+func init(){
 	for i := 0; i < 100; i++ {
-		arg = append(arg, string(i))
+		strSlice = append(strSlice, string(i))
 	}
-	return arg
 }
 
 func Benchmark非効率な可能性のあるバージョン(b *testing.B){
-	args := getSampleSliceOfString()
 	for i := 0; i < b.N; i++ {
 		s, sep := "", ""
-		for _, arg := range args {
+		for _, arg := range strSlice {
 			s += sep + arg
 			sep = " "
 		}
@@ -41,8 +41,7 @@ func Benchmark非効率な可能性のあるバージョン(b *testing.B){
 }
 
 func BenchmarkStringsJoin(b *testing.B){
-	args := getSampleSliceOfString()
 	for i:= 0; i < b.N; i++ {
-		strings.Join(args, " ")
+		strings.Join(strSlice, " ")
 	}
 }
