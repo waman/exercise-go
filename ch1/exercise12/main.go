@@ -15,6 +15,7 @@ import (
 	"math/rand"
 	"image/color"
 	"strconv"
+	"fmt"
 )
 
 var palette = []color.Color{color.White, color.Black}
@@ -27,6 +28,7 @@ const(
 func main(){
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
+	fmt.Println("Lissajous Server starts...")
 }
 
 func handler(w http.ResponseWriter, r *http.Request){
