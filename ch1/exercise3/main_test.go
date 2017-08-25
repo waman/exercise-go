@@ -16,6 +16,7 @@ package exercise3
 import (
 	"testing"
 	"strings"
+	"strconv"
 )
 
 // 連結を行う文字列のスライス。
@@ -23,10 +24,11 @@ import (
 var strSlice []string
 
 // 文字列のスライスの初期化
-// init() メソッドも練習問題 1.3 の時点で出てきませんが。
+// init() メソッド、strconv.Itoa() メソッドも
+// 練習問題 1.3 の時点で出てきませんが。
 func init(){
 	for i := 0; i < 100; i++ {
-		strSlice = append(strSlice, string(i))
+		strSlice = append(strSlice, strconv.Itoa(i))
 	}
 }
 
