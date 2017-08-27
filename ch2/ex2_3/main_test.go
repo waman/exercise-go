@@ -6,14 +6,15 @@
 // 【注意】
 // PopCount の各バージョンの実装は main.go に書いてます。
 //
-// 【実行方法】
-// > cd ch2/exercise3
+// 【実行方法】（コマンド・プロンプト）
+// > go get github.com/waman/exercise-go/ch2/ex2_3
+// > cd %GOPATH%/ch2/ex2_3
 // > go test -bench=.
 //
 // 【結果例】
 // ・単一の式を使ったバージョン : 0.87 ns/op
 // ・ループを使ったバージョン : 113 ns/op
-package exercise3
+package ex2_3
 
 import (
 	"testing"

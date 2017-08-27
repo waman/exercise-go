@@ -4,14 +4,15 @@
 // いますし、11.4節では体系的に性能評価を行うためのベンチマークテストの書き方
 // を説明しています）。
 //
-// 【実行方法】
-// > cd ch1/exercise3
+// 【実行方法】（コマンド・プロンプト）
+// > go get github.com/waman/exercise-go/ch1/ex1_3
+// > cd %GOPATH%/ch1/ex1_3
 // > go test -bench=.
 //
 // 【結果例】
 // ・非効率な可能性のあるバージョン : 43172 ns/op
 // ・strings.Join : 4157 ns/op
-package exercise3
+package ex1_3
 
 import (
 	"testing"

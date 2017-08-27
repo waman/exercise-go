@@ -6,14 +6,15 @@
 // 【注意】
 // PopCount の各バージョンの実装は main.go に書いてます。
 //
-// 【実行方法】
-// > cd ch2/exercise4
+// 【実行方法】（コマンド・プロンプト）
+// > go get github.com/waman/exercise-go/ch2/ex2_4
+// > cd %GOPATH%/ch2/ex2_4
 // > go test -bench=.
 //
 // 【結果例】
 // ・テーブル参照を行うバージョン : 0.87 ns/op
 // ・テーブル参照を行わないバージョン : 295 ns/op
-package exercise3
+package ex2_4
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package exercise3
+package ex2_5
 
 var pc [256]byte
 
