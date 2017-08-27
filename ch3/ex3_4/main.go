@@ -30,7 +30,7 @@ func handler(w http.ResponseWriter, r *http.Request){
 	width, height, cells, xyrange, xyscale, zscale, angle, c := getParameters(r)
 
 	fwidth, fheight, fcells := float64(width), float64(height), float64(cells)
-	var sin30, cos30 = Sin(angle), Cos(angle)
+	sin30, cos30 := Sincos(angle)  // math.Sincos() は sin と cos をまとめて計算する
 
 	corner := func(i, j int)(float64, float64){
 		x := xyrange * (float64(i)/fcells - 0.5)
