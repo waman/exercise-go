@@ -17,7 +17,7 @@ import(
 	"math"
 )
 
-var palette2 = []color.Color{color.Black, color.RGBA{0x00, 0xff, 0x00, 0x88}}
+var palette2 = []color.Color{color.Black, color.RGBA{0x00, 0xff, 0x00, 0xff}}
 
 const(
 	backgroundIndex = 0
