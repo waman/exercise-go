@@ -9,8 +9,8 @@ import (
 
 func main(){
 	http.HandleFunc("/", handler)
+	log.Println("Server1 starts...")
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
-	fmt.Println("Server1 starts...")
 }
 
 func handler(w http.ResponseWriter, r *http.Request){

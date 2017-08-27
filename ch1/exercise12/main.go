@@ -27,8 +27,8 @@ const(
 
 func main(){
 	http.HandleFunc("/", handler)
+	log.Println("Lissajous Server starts...")
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
-	fmt.Println("Lissajous Server starts...")
 }
 
 func handler(w http.ResponseWriter, r *http.Request){

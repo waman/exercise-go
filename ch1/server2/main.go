@@ -14,8 +14,8 @@ var count int
 func main(){
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/count", counter)
+	log.Println("Server2 starts...")
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
-	fmt.Println("Server2 starts...")
 }
 
 func handler(w http.ResponseWriter, r *http.Request){

@@ -44,7 +44,7 @@ func main(){
 			}
 
 			fmt.Printf("<polygon points='%g,%g,%g,%g,%g,%g,%g,%g' fill='%s'/>\n",
-			ax, ay, bx, by, cx, cy, dx, dy, c)
+			  ax, ay, bx, by, cx, cy, dx, dy, c)
 		}
 	}
 	fmt.Println("</svg>")
