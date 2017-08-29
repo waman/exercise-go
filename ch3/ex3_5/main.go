@@ -9,6 +9,7 @@ import (
 	"os"
 	"image/color"
 	"math/cmplx"
+	"image/color/palette"
 )
 
 func main(){
@@ -43,3 +44,20 @@ func mandelbrot(z complex128) color.Color {
 	}
 	return color.RGBA{ 0x00, 0x00, 0xff, 0xff }
 }
+
+// palette.Plan9 を使ったバージョン
+//func mandelbrot(z complex128) color.Color {
+//	const iterations = 255
+//	const contrast   = 31
+//
+//	var v complex128
+//	for n := 0; n < iterations; n++ {
+//		v = v*v + z
+//		if cmplx.Abs(v) > 2 {
+//			// 配色を考えるのが面倒なので、標準パッケージに定義済みの
+//			// palette.Plan9 を使用（問題文無視）。
+//			return palette.Plan9[n*contrast % 256]
+//		}
+//	}
+//	return color.White
+//}

@@ -9,7 +9,7 @@ import (
 
 func main(){
 	http.HandleFunc("/", handler)
-	log.Println("Server3 starts...")
+	log.Println("Server3 starts...")  // 起動メッセージ
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 

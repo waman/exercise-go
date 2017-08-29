@@ -1,4 +1,4 @@
-//boiling は水の沸点を表示します。
+// boiling は水の沸点を表示します。
 package main
 
 import "fmt"
