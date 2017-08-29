@@ -75,6 +75,8 @@ func julia(z complex128) color.Color {
 	return color.Black
 }
 
+// z と方程式 z^4 - 1 = 0 の解 (z = 1, i, -1, -i) との距離が
+// delta 未満になったら繰り返しをやめる。
 const delta = 0.1
 
 func nearlyEqual(z0, z1 complex128) bool {
