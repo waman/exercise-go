@@ -29,16 +29,19 @@ func main(){
 }
 
 func comma(s string) string {
-	ss := []byte(s)
+	length := len(s)
+	if length < 3 { return s }
+
 	var buf bytes.Buffer
 
-	i := len(ss)%3
-	buf.Write(ss[:i])
-	ss = ss[i:]
+	i := length%3
+	if i == 0 { i = 3 }
+	buf.WriteString(s[:i])
+	s = s[i:]
 
-	for ; len(ss) > 0; ss = ss[3:] {
+	for ; len(s) > 0; s = s[3:] {
 		buf.WriteByte(',')
-		buf.Write(ss[:3])
+		buf.WriteString(s[:3])
 	}
 
 	return buf.String()
