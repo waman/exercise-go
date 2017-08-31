@@ -7,7 +7,6 @@ import (
 	"fmt"
 )
 
-
 const(
 	KB = 1000
 	MB = KB*KB
