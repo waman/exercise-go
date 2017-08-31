@@ -20,8 +20,7 @@ func main(){
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
-// クエリとしては本文のコード mandelbrot に定数として定義されている
-// 中心の座標 x, y と倍率 scale を許容しています。
+// クエリとしては中心の座標 x, y と倍率 scale を許容しています。
 // 描画される領域は (x-scale, y-scale), (x+scale, y+scale)
 func handler(w http.ResponseWriter, r *http.Request){
 
