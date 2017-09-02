@@ -29,6 +29,11 @@ func PopCountDifference(x, y [32]byte) int {
 }
 
 func main(){
+	if len(os.Args) != 3 {
+		fmt.Println("2つの引数を指定してください。")
+		return
+	}
+
 	var c1 [32]byte = sha256.Sum256([]byte(os.Args[1]))
 	var c2 [32]byte = sha256.Sum256([]byte(os.Args[2]))
 
