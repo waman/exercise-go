@@ -10,48 +10,49 @@ import (
 	"strconv"
 	"unicode"
 	"unicode/utf8"
+	"bytes"
 )
-
-func compressWhiteSpaces(bytes []byte) []byte {
-	n := len(bytes)
-	if n == 0 { return bytes }
-
-	previousIsSpace, nextIndex := false, 0
-	for i := 0; i < n; {
-		r, size := utf8.DecodeRune(bytes[i:])
-		if unicode.IsSpace(r) {
-			if !previousIsSpace {
-				bytes[nextIndex] = ' '
-				nextIndex++
-			}
-			previousIsSpace = true
-
-		} else {
-			copy(bytes[nextIndex:], bytes[i:i+size])
-			nextIndex += size
-			previousIsSpace = false
-		}
-		i += size
-	}
-
-	return bytes[:nextIndex]
-}
 
 func main(){
 	// コマンドライン引数が [Hello, Go \u4e16\u754c!] のとき
 	// 以下の unquoted （の列）は [Hello, Go 世界!] となる。
 	// bytes は [72 101 108 108 111 44 71 111 228 184 150 231 149 140 33]
 	//           H  e   l   l   o   ,  G  o   世          界           !
-	var bytes []byte
+	var buffer bytes.Buffer
 	for _, arg := range os.Args[1:] {
 		unquoted, err := strconv.Unquote("\"" + arg + "\"")
 		if err != nil { fmt.Println(err) }
 
-		for _, b := range []byte(unquoted){
-			bytes = append(bytes, b)
-		}
+		buffer.WriteString(unquoted)
 	}
 
-	bytes = compressWhiteSpaces(bytes)
-	fmt.Println(bytes)
+	bs := buffer.Bytes()
+	bs = compressWhiteSpaces(bs)
+	fmt.Println(bs)
+}
+
+func compressWhiteSpaces(bs []byte) []byte {
+	n := len(bs)
+	if n == 0 { return bs
+	}
+
+	previousIsSpace, nextIndex := false, 0
+	for i := 0; i < n; {
+		r, size := utf8.DecodeRune(bs[i:]) // 位置iからルーンを1文字読み込む
+		if unicode.IsSpace(r) {
+			if !previousIsSpace {
+				bs[nextIndex] = ' '
+				nextIndex++
+			}
+			previousIsSpace = true
+
+		} else {
+			copy(bs[nextIndex:], bs[i:i+size]) // 読み込んだルーンのバイト数分を前へコピー
+			nextIndex += size
+			previousIsSpace = false
+		}
+		i += size
+	}
+
+	return bs[:nextIndex]
 }
