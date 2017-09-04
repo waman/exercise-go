@@ -26,7 +26,7 @@ func reverse(bs []byte){
 	n := len(bs)
 	if n == 0 || n == 1 { return }
 
-  for i := 0; i < n; {
+	for i := 0; i < n; {
 		_, size := utf8.DecodeRune(bs[i:])
 		reverseBytes(bs[i:i+size])  // ルーン内の反転
 		i += size
