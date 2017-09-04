@@ -15,7 +15,7 @@ import (
 	"encoding/json"
 )
 
-const IssuesURL = "https://api.github.com/serch/issues"
+const IssuesURL = "https://api.github.com/search/issues"
 
 type IssueSearchResult struct {
 	TotalCount int `json:"total_count"`
