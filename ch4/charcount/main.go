@@ -10,12 +10,19 @@ import (
 	"unicode"
 )
 
+// 実行例
+//
+//   > go run ./ch4/charcount/main.go < ./ch4/TheGoBlog-strings.txt
+//
+// ch4 ディレクトリ下に TheGoBlog-strings.txt を置いていますが、
+// これは The Go Blog の記事 "https://blog.golang.org/strings"
+// から拝借しました（いくつか漢字などが含まれている、ちょうどよさげな内容だったため）。
+// go get でコードを取得した場合は、上記のコマンドではうまく動かないかもしれません。
 func main(){
 	counts := make(map[rune]int)
 	var utflen [utf8.UTFMax + 1]int
 	invalid := 0
 
-	fmt.Print("> ")
 	in := bufio.NewReader(os.Stdin)
 	for {
 		r, n, err := in.ReadRune()
