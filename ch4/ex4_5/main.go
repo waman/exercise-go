@@ -13,6 +13,7 @@ func main(){
 	a := make([]string, len(os.Args)-1)
 	copy(a, os.Args[1:])
 
+	// 連続している文字の除去
 	a = removeContinuousDuplicates(a)
 	fmt.Println(a)
 }

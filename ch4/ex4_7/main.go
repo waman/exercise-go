@@ -12,14 +12,22 @@ import (
 )
 
 func main(){
+	// 引数をバイトスライスへ変換
+	bs := ToByteSlice(os.Args[1:])
+
+	// 反転の実行
+	reverse(bs)
+
+	fmt.Println(bs)
+}
+
+// 文字列のスライスをバイトスライスへ変換
+func ToByteSlice(strslice []string) []byte {
 	var buffer bytes.Buffer
-	for _, arg := range os.Args[1:] {
+	for _, arg := range strslice {
 		buffer.WriteString(arg)
 	}
-	bs := buffer.Bytes()
-
-	reverse(bs)
-	fmt.Println(bs)
+	return buffer.Bytes()
 }
 
 func reverse(bs []byte){

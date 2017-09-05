@@ -14,21 +14,30 @@ import (
 )
 
 func main(){
-	// コマンドライン引数が [Hello, Go \u4e16\u754c!] のとき
-	// 以下の unquoted （の列）は [Hello, Go 世界!] となる。
-	// bytes は [72 101 108 108 111 44 71 111 228 184 150 231 149 140 33]
-	//           H  e   l   l   o   ,  G  o   世          界           !
+	// 引数をバイトスライスへ変換
+	bs := ToUnquotedByteSlice(os.Args[1:])
+
+	// 空白の圧縮
+	bs = compressWhiteSpaces(bs)
+
+	fmt.Println(bs)
+}
+
+// 引数が [Hello, Go \u4e16\u754c!] のとき
+// 以下の unquoted （の列）は [Hello, Go 世界!] となります。
+// つまり、空白文字を含めて、ユニコードエスケープした文字列で文字を指定できます。
+//
+// bytes は [72 101 108 108 111 44 71 111 228 184 150 231 149 140 33]
+//           H  e   l   l   o   ,  G  o   世          界           !
+func ToUnquotedByteSlice(strslice []string) []byte {
 	var buffer bytes.Buffer
-	for _, arg := range os.Args[1:] {
+	for _, arg := range strslice {
 		unquoted, err := strconv.Unquote("\"" + arg + "\"")
 		if err != nil { fmt.Println(err) }
 
 		buffer.WriteString(unquoted)
 	}
-
-	bs := buffer.Bytes()
-	bs = compressWhiteSpaces(bs)
-	fmt.Println(bs)
+	return buffer.Bytes()
 }
 
 func compressWhiteSpaces(bs []byte) []byte {
