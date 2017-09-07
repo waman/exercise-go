@@ -4,17 +4,18 @@
 package main
 
 import (
-	"os"
-	"log"
 	"fmt"
 	"github.com/waman/exercise-go/ch4/github"
+	"log"
+	"os"
 	"time"
 )
 
 type Period string
+type Catalog map[Period][]*github.Issue
 
-const(
-  WithinAMonth Period = "一か月未満"
+const (
+	WithinAMonth Period = "一か月未満"
 	WithinAYear         = "一年未満"
 	OverAYear           = "一年以上"
 )
@@ -23,11 +24,11 @@ const(
 //
 //   > go run ./ch4/ex4_10/main.go repo:golang/go is:open json decoder
 //
-func main(){
-	var categ = map[Period][]github.Issue{
+func main() {
+	var catalog = Catalog{
 		WithinAMonth: {},
-		WithinAYear : {},
-		OverAYear   : {},
+		WithinAYear:  {},
+		OverAYear:    {},
 	}
 
 	result, err := github.SearchIssues(os.Args[1:])
@@ -37,27 +38,27 @@ func main(){
 
 	for _, item := range result.Items {
 		h := time.Since(item.CreatedAt).Hours()
-		switch{
-		case h < 24*30:  // 1か月 = 30日
-			categ[WithinAMonth] = append(categ[WithinAMonth], *item)
+		switch {
+		case h < 24*30: // 1か月 = 30日
+			catalog[WithinAMonth] = append(catalog[WithinAMonth], item)
 
-		case h < 24*365:  // 1年 = 365日
-			categ[WithinAYear] = append(categ[WithinAYear], *item)
+		case h < 24*365: // 1年 = 365日
+			catalog[WithinAYear] = append(catalog[WithinAYear], item)
 
 		default:
-			categ[OverAYear] = append(categ[OverAYear], *item)
+			catalog[OverAYear] = append(catalog[OverAYear], item)
 		}
 	}
 
-	printIssuesInPeriod(categ, WithinAMonth)
-	printIssuesInPeriod(categ, WithinAYear)
-	printIssuesInPeriod(categ, OverAYear)
+	printIssuesInPeriod(catalog, WithinAMonth)
+	printIssuesInPeriod(catalog, WithinAYear)
+	printIssuesInPeriod(catalog, OverAYear)
 }
 
-func printIssuesInPeriod(categ map[Period][]github.Issue, period Period){
-	issues := categ[period]
+func printIssuesInPeriod(catalog Catalog, period Period) {
+	issues := catalog[period]
 
-  fmt.Printf("***** %s *****\n", period)
+	fmt.Printf("***** %s *****\n", period)
 	fmt.Printf("%d issues:\n", len(issues))
 
 	for _, item := range issues {
