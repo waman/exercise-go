@@ -19,7 +19,7 @@ import (
 //   5       mdempsky [commitors1.txt][commitors2.txt][commitors3.txt]
 //   2       aarzilli [commitors1.txt]
 //
-// commitorsX.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
+// commitors#.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
 // また、go get でコードを取得した場合は、上記のコマンドではうまくいかないかもしれません。
 func main(){
 	counts := make(map[string]int)
