@@ -47,19 +47,26 @@ func main(){
 			continue
 		}
 
-		if unicode.IsLetter(r){
+		switch {
+		case unicode.IsLetter(r):
 			counts[Letter]++
-		}else if unicode.IsNumber(r){
+
+		case unicode.IsNumber(r):
 			counts[Number]++
-		}else if unicode.IsSymbol(r){
+
+		case unicode.IsSymbol(r):
 			counts[Symbol]++
-		}else if unicode.IsMark(r){
+
+		case unicode.IsMark(r)  :
 			counts[Mark]++
-		}else if unicode.IsPunct(r){
+
+		case unicode.IsPunct(r) :
 			counts[Punct]++
-		}else if unicode.IsSpace(r){
+
+		case unicode.IsSpace(r) :
 			counts[Space]++
-		}else{
+
+		default:
 			fmt.Printf("%q ", r)
 			counts[Unknown]++
 		}
