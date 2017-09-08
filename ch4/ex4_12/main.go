@@ -9,18 +9,18 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"io"
 	"log"
 	"net/http"
-	"fmt"
-	"encoding/json"
 	"os"
-	"io"
 )
 
 type Comic struct {
 	Number int    `json:"num"`
 	Title  string `json:"title"`
-	Alt    string `json:"alt"`  // 新しいものは transcript が空なので alt を表示
+	Alt    string `json:"alt"` // 新しいものは transcript が空なので alt を表示
 	Image  string `json:"img"`
 }
 
@@ -39,42 +39,62 @@ func main() {
 }
 
 // この処理中では io.Writer を閉じません。
-func createIndex(w io.Writer){
+func createIndex(w io.Writer) {
 	fmt.Fprint(w, "[")
+	var sep = ""
 
 	// current comic
-	current, err := downloadComic(0)
+	current, err := downloadComicAndWriteIndex(w, 0)
 	if err != nil {
-		log.Fatalf("コミックのダウンロードに失敗しました (current): %s", err)
-		return
+		log.Fatalf("コミック情報のインデクスに失敗しました (current): %s", err)
+	} else {
+		sep = ","
 	}
-	writeJSON(w, current, "")
 
 	// older comic
-	for no := current.Number-1; no > min; no-- {
-		comic, err := downloadComic(no)
+	for no := current.Number - 1; no > min; no-- {
+		fmt.Fprint(w, sep)
+		_, err := downloadComicAndWriteIndex(w, no)
 		if err != nil {
-			log.Fatalf("コミックのダウンロードに失敗しました (No.%d): %s", no, err)
+			log.Fatalf("コミック情報のインデクスに失敗しました (No.%d): %s", no, err)
 			continue
 		}
-		writeJSON(w, comic, ",")
+		sep = ","
 	}
 	fmt.Fprint(w, "]")
+}
+
+func downloadComicAndWriteIndex(w io.Writer, no int) (*Comic, error) {
+	comic, err := downloadComic(no)
+	if err != nil {
+		return nil, err
+	}
+
+	err = writeIndex(w, comic)
+	if err != nil {
+		return nil, err
+	}
+
+	return comic, nil
 }
 
 func downloadComic(no int) (*Comic, error) {
 	var url string
 	if no > 0 {
 		url = fmt.Sprintf("https://xkcd.com/%d/info.0.json", no)
-	}else{
+	} else {
 		url = "https://xkcd.com/info.0.json"
 	}
 
 	resp, err := http.Get(url)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK { return nil, err }
+	if resp.StatusCode != http.StatusOK {
+		return nil, err
+	}
 
 	var comic Comic
 	if err := json.NewDecoder(resp.Body).Decode(&comic); err != nil {
@@ -84,11 +104,11 @@ func downloadComic(no int) (*Comic, error) {
 	return &comic, nil
 }
 
-func writeJSON(w io.Writer, comic *Comic, sep string){
+func writeIndex(w io.Writer, comic *Comic) error {
 	index, err := json.Marshal(comic)
 	if err != nil {
-		log.Fatalf("コミックのインデックスの書き出しに失敗しました (No.%d): %s", comic.Number, err)
-		return
+		return err
 	}
-	fmt.Fprint(w, sep, string(index))
+	fmt.Fprint(w, string(index))
+	return nil
 }
