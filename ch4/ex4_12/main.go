@@ -1,0 +1,94 @@
+// 【練習問題 4.12】
+// 人気があるウェブコミック xkcd は JSON インターフェースを持っています。
+// たとえば、https://xkcd.com/571/info.0.json に対するリクエストは、
+// 多くのお気に入りのうちの一つであるコミック 571 の詳細な説明を生成します。
+// それぞれの URL を（一度だけ！）ダウンロードして、オフラインインデックス
+// を作成しなさい。そのインデックスを使って、コマンドラインで提供された検索
+// 語と一致するコミックのそれぞれの URL と内容 (transcript) を表示する
+// ツール xkcd を書きなさい。
+package main
+
+import (
+	"log"
+	"net/http"
+	"fmt"
+	"encoding/json"
+	"os"
+	"io"
+)
+
+type Comic struct {
+	Number int    `json:"num"`
+	Title  string `json:"title"`
+	Alt    string `json:"alt"`  // 新しいものは transcript が空なので alt を表示
+	Image  string `json:"img"`
+}
+
+const min = 1800
+
+// 全てのコミックを書き出すのは大変なので、最新 (No.1886) から No.1800 までを書き出してます。
+//
+// 実行例：
+//
+//   > go run ./ch4/ex4_12/main.go > xkcd-index.json
+//
+// 作成したインデックスファイルを使用して URL と内容を表示するプログラムは
+// xkcd 参照。
+func main() {
+	createIndex(os.Stdout)
+}
+
+// この処理中では io.Writer を閉じません。
+func createIndex(w io.Writer){
+	fmt.Fprint(w, "[")
+
+	// current comic
+	current, err := downloadComic(0)
+	if err != nil {
+		log.Fatalf("コミックのダウンロードに失敗しました (current): %s", err)
+		return
+	}
+	writeJSON(w, current, "")
+
+	// older comic
+	for no := current.Number-1; no > min; no-- {
+		comic, err := downloadComic(no)
+		if err != nil {
+			log.Fatalf("コミックのダウンロードに失敗しました (No.%d): %s", no, err)
+			continue
+		}
+		writeJSON(w, comic, ",")
+	}
+	fmt.Fprint(w, "]")
+}
+
+func downloadComic(no int) (*Comic, error) {
+	var url string
+	if no > 0 {
+		url = fmt.Sprintf("https://xkcd.com/%d/info.0.json", no)
+	}else{
+		url = "https://xkcd.com/info.0.json"
+	}
+
+	resp, err := http.Get(url)
+	if err != nil { return nil, err }
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK { return nil, err }
+
+	var comic Comic
+	if err := json.NewDecoder(resp.Body).Decode(&comic); err != nil {
+		return nil, err
+	}
+
+	return &comic, nil
+}
+
+func writeJSON(w io.Writer, comic *Comic, sep string){
+	index, err := json.Marshal(comic)
+	if err != nil {
+		log.Fatalf("コミックのインデックスの書き出しに失敗しました (No.%d): %s", comic.Number, err)
+		return
+	}
+	fmt.Fprint(w, sep, string(index))
+}

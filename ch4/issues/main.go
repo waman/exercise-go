@@ -8,9 +8,10 @@ import (
 	"github.com/waman/exercise-go/ch4/github"
 )
 
-// 実行例
+// 実行例：
 //
 //   > go run ./ch4/issues/main.go repo:golang/go is:open json decoder
+//
 func main(){
 	result, err := github.SearchIssues(os.Args[1:])
 	if err != nil {
