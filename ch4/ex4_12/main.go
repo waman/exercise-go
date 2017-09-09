@@ -44,7 +44,7 @@ func createIndex(w io.Writer) {
 	var sep = ""
 
 	// current comic
-	current, err := downloadComicAndWriteIndex(w, 0)
+	current, err := addIndexOfAComic(w, 0)
 	if err != nil {
 		log.Fatalf("コミック情報のインデクスに失敗しました (current): %s", err)
 	} else {
@@ -54,7 +54,7 @@ func createIndex(w io.Writer) {
 	// older comic
 	for no := current.Number - 1; no > min; no-- {
 		fmt.Fprint(w, sep)
-		_, err := downloadComicAndWriteIndex(w, no)
+		_, err := addIndexOfAComic(w, no)
 		if err != nil {
 			log.Fatalf("コミック情報のインデクスに失敗しました (No.%d): %s", no, err)
 			continue
@@ -64,7 +64,7 @@ func createIndex(w io.Writer) {
 	fmt.Fprint(w, "]")
 }
 
-func downloadComicAndWriteIndex(w io.Writer, no int) (*Comic, error) {
+func addIndexOfAComic(w io.Writer, no int) (*Comic, error) {
 	comic, err := downloadComic(no)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func downloadComic(no int) (*Comic, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, err
