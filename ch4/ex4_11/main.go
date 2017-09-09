@@ -19,17 +19,7 @@ import (
 	"strconv"
 )
 
-func createRequest(method, urlStr string, body io.Reader) (*http.Response, error){
-	accessToken := getAccessToken()
-
-	req, err := http.NewRequest(method, urlStr, body)
-	if err != nil { return nil, err }
-
-	req.Header.Add("Authorization", "token " + accessToken)
-
-	client := &http.Client{}
-	return client.Do(req)
-}
+var accessToken = getAccessToken()
 
 func getAccessToken() string {
 	bs, err := ioutil.ReadFile(".github_access_token")
@@ -38,6 +28,16 @@ func getAccessToken() string {
 		os.Exit(1)
 	}
 	return string(bs)
+}
+
+func createRequest(method, urlStr string, body io.Reader) (*http.Response, error){
+	req, err := http.NewRequest(method, urlStr, body)
+	if err != nil { return nil, err }
+
+	req.Header.Add("Authorization", "token " + accessToken)
+
+	client := &http.Client{}
+	return client.Do(req)
 }
 
 // create, update, close が成功したときに、メッセージと対象 URL を表示します。
@@ -60,13 +60,13 @@ func printResult(resp *http.Response, successMessage string){
 func user(){
 	resp, err := createRequest("GET", "https://api.github.com/user", nil)
 	if err != nil {
-		log.Fatalf("アカウント情報の取得に失敗しました： %s", err)
+		log.Fatalf("アカウント情報を取得できませんでした： %s", err)
 		return
 	}
 	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalf("ユーザー情報を取得できませんでした %s", resp.Status)
+		log.Fatalf("アカウント情報を取得できませんでした： %s", resp.Status)
 		return
 	}
 
@@ -87,13 +87,13 @@ func CreateIssue(repo, title, message string){
 
 	resp, err := createRequest("POST", createIssuesURL, strings.NewReader(issueBody))
 	if err != nil {
-		log.Fatalf("イシューの作成に失敗しました： %s", err)
+		log.Fatalf("イシューを作成できませんでした： %s", err)
 		return
 	}
 	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusCreated {
-		log.Fatalf("イシューを作成できませんでした %s", resp.Status)
+		log.Fatalf("イシューを作成できませんでした： %s", resp.Status)
 		return
 	}
 
@@ -105,13 +105,13 @@ func GetIssues(repo string){
 	getIssuesURL := fmt.Sprintf("https://api.github.com/repos/%s/issues", repo)
 	resp, err := createRequest("GET", getIssuesURL, nil)
 	if err != nil {
-		log.Fatalf("イシューの取得に失敗しました： %s", err)
+		log.Fatalf("イシューを取得できませんでした： %s", err)
 		return
 	}
 	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalf("イシューを取得できませんでした %s", resp.Status)
+		log.Fatalf("イシューを取得できませんでした： %s", resp.Status)
 		return
 	}
 
@@ -138,13 +138,13 @@ func UpdateIssue(repo, no, title, message string){
 
 	resp, err := createRequest("PATCH", updateIssuesURL, strings.NewReader(issueBody))
 	if err != nil {
-		log.Fatalf("イシューの更新に失敗しました： %s", err)
+		log.Fatalf("イシューを更新できませんでした： %s", err)
 		return
 	}
 	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalf("イシューを更新できませんでした %s", resp.Status)
+		log.Fatalf("イシューを更新できませんでした： %s", resp.Status)
 		return
 	}
 
@@ -163,13 +163,13 @@ func CloseIssue(repo, i string){
 
 	resp, err := createRequest("PATCH", closeIssuesURL, strings.NewReader(issueBody))
 	if err != nil {
-		log.Fatalf("イシューのクローズに失敗しました： %s", err)
+		log.Fatalf("イシューをクローズできませんでした： %s", err)
 		return
 	}
 	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalf("イシューをクローズできませんでした %s", resp.Status)
+		log.Fatalf("イシューをクローズできませんでした： %s", resp.Status)
 		return
 	}
 
