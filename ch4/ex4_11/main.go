@@ -6,7 +6,6 @@
 package main
 
 import (
-	"time"
 	"net/http"
 	"fmt"
 	"encoding/json"
@@ -19,21 +18,6 @@ import (
 	"net/url"
 	"strconv"
 )
-
-type Issue struct {
-	Number    int
-	HTMLURL   string `json:"html_url"`
-	Title     string
-	State     string
-	User      *User
-	CreatedAt time.Time `json:"created_at"`
-	Body      string  // マークダウン形式
-}
-
-type User struct {
-	Login   string
-	HTMLURL string `json:"html_url"`
-}
 
 func createRequest(method, urlStr string, body io.Reader) (*http.Response, error){
 	accessToken := getAccessToken()
@@ -131,7 +115,7 @@ func GetIssues(repo string){
 		return
 	}
 
-	var issues []Issue
+	var issues []github.Issue
 	if err := json.NewDecoder(resp.Body).Decode(&issues); err != nil {
 		log.Fatal(err)
 		return
