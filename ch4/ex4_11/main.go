@@ -19,6 +19,55 @@ import (
 	"strconv"
 )
 
+// GitHub のアクセストークンを作業ディレクトリ上のファイル ".github_access_token" に保存して
+// おいてください。　アクセストークンの生成は https://github.com/settings/token からできます。
+// 入力が長い場合のエディタの起動は実装していません。
+//
+// 自分のアカウントの確認：
+//
+//   > go run ./ch4/ex4_11/main.go
+//
+// イシューの作成：
+//
+//   > go run ./ch4/ex4_11/main.go create waman/exercise-go "Issue Title" "Issue Body"
+//
+// イシューの取得：
+//
+//   > go run ./ch4/ex4_11/main.go get waman/exercise-go
+//
+// イシューの更新：
+//
+//   > go run ./ch4/ex4_11/main.go update waman/exercise-go 1 "New Issue Title" "New Issue Body"
+//
+// イシューのクローズ：
+//
+//   > go run ./ch4/ex4_11/main.go close waman/exercise-go 1
+//
+func main(){
+
+	if len(os.Args) < 2 {
+		user()
+		return
+	}
+
+	// os.Args[2] -> repo
+	ss := strings.Split(os.Args[2], "/")
+	repo := url.QueryEscape(ss[0]) + "/" + url.QueryEscape(ss[1])
+
+	switch os.Args[1]{
+	case "create":
+		CreateIssue(repo, os.Args[3], os.Args[4])
+	case "get":
+		GetIssues(repo)
+	case "update":
+		UpdateIssue(repo, os.Args[3], os.Args[4], os.Args[5])
+	case "close":
+		CloseIssue(repo, os.Args[3])
+	default:
+		user()
+	}
+}
+
 var accessToken = getAccessToken()
 
 func getAccessToken() string {
@@ -174,53 +223,4 @@ func CloseIssue(repo, i string){
 	}
 
 	printResult(resp, "イシューをクローズしました")
-}
-
-// GitHub のアクセストークンを作業ディレクトリ上のファイル ".github_access_token" に保存して
-// おいてください。　アクセストークンの生成は https://github.com/settings/token からできます。
-// 入力が長い場合のエディタの起動は実装していません。
-//
-// 自分のアカウントの確認：
-//
-//   > go run ./ch4/ex4_11/main.go
-//
-// イシューの作成：
-//
-//   > go run ./ch4/ex4_11/main.go create waman/exercise-go "Issue Title" "Issue Body"
-//
-// イシューの取得：
-//
-//   > go run ./ch4/ex4_11/main.go get waman/exercise-go
-//
-// イシューの更新：
-//
-//   > go run ./ch4/ex4_11/main.go update waman/exercise-go 1 "New Issue Title" "New Issue Body"
-//
-// イシューのクローズ：
-//
-//   > go run ./ch4/ex4_11/main.go close waman/exercise-go 1
-//
-func main(){
-
-	if len(os.Args) < 2 {
-		user()
-		return
-	}
-
-	// os.Args[2] -> repo
-	ss := strings.Split(os.Args[2], "/")
-	repo := url.QueryEscape(ss[0]) + "/" + url.QueryEscape(ss[1])
-
-	switch os.Args[1]{
-	case "create":
-		CreateIssue(repo, os.Args[3], os.Args[4])
-	case "get":
-		GetIssues(repo)
-	case "update":
-		UpdateIssue(repo, os.Args[3], os.Args[4], os.Args[5])
-	case "close":
-		CloseIssue(repo, os.Args[3])
-	default:
-		user()
-	}
 }
