@@ -3,7 +3,6 @@ package main
 import (
 	"golang.org/x/net/html"
 	"fmt"
-	"github.com/waman/exercise-go/ch5/links"
 	"net/http"
 	"strings"
 	"os"
@@ -58,7 +57,7 @@ func soleTitle(doc *html.Node) (title string, err error) {
 		}
 	}()
 
-	links.ForEachNode(doc, func(n *html.Node){
+	forEachNode(doc, func(n *html.Node){
 		if n.Type == html.ElementNode && n.Data == "title" &&
 			n.FirstChild != nil {
 				if title != "" {
@@ -71,4 +70,19 @@ func soleTitle(doc *html.Node) (title string, err error) {
 		return "", fmt.Errorf("notitle element")
 	}
 	return title, nil
+}
+
+// outline2 のものと同じ。
+func forEachNode(n *html.Node, pre, post func(n *html.Node)){
+	if pre != nil {
+		pre(n)
+	}
+
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		forEachNode(c, pre, post)
+	}
+
+	if post != nil {
+		post(n)
+	}
 }

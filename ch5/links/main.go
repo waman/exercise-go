@@ -41,18 +41,18 @@ func Extract(url string)([]string, error) {
 			}
 		}
 	}
-	ForEachNode(doc, visitNode, nil)
+	forEachNode(doc, visitNode, nil)
 	return links, nil
 }
 
-// outline2 のものと同じ。　ただしパブリックにしています。
-func ForEachNode(n *html.Node, pre, post func(n *html.Node)){
+// outline2 のものと同じ。
+func forEachNode(n *html.Node, pre, post func(n *html.Node)){
 	if pre != nil {
 		pre(n)
 	}
 
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		ForEachNode(c, pre, post)
+		forEachNode(c, pre, post)
 	}
 
 	if post != nil {

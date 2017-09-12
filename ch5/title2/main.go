@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"golang.org/x/net/html"
 	"os"
-	"github.com/waman/exercise-go/ch5/links"
 )
 
 func main(){
@@ -36,6 +35,21 @@ func title(url string) error {
 				fmt.Println(n.FirstChild.Data)
 		}
 	}
-	links.ForEachNode(doc, visitNode, nil)
+	forEachNode(doc, visitNode, nil)
 	return nil
+}
+
+// outline2 のものと同じ。
+func forEachNode(n *html.Node, pre, post func(n *html.Node)){
+	if pre != nil {
+		pre(n)
+	}
+
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		forEachNode(c, pre, post)
+	}
+
+	if post != nil {
+		post(n)
+	}
 }
