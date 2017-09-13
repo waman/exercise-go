@@ -25,7 +25,6 @@ func main(){
 	i, err := strconv.Atoi(os.Args[n-1])
 	if err != nil {
 		log.Fatalf("最後の引数は整数にしてください： %s %s", os.Args[n-1], err)
-		return
 	}
 
 	// 回転の実行

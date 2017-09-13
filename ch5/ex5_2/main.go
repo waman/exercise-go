@@ -7,36 +7,39 @@ import (
 	"os"
 	"fmt"
 	"golang.org/x/net/html"
+	"github.com/waman/exercise-go/ch5/htmlutil"
+	"log"
 )
 
+// 次節の findlinks2 を参考にして第1章の fetch を実行しなくてよいようにしています。
+// 指定した URL から HTML を読み込むコードは定型文なので htmlutil.GetHTML に
+// 抽出しました。
+//
 // 実行例：
 //
-//   > go build ./ch1/fetch
-//   > go build ./ch5/ex5_2
-//   > fetch https://golang.org | ex5_2
+//   > go run ex5_2 https://golang.org
 //
 func main(){
-	doc, err := html.Parse(os.Stdin)
+	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "練習問題 5.2： %v\n", err)
-		os.Exit(1)
+		log.Fatalf("練習問題 5.2： %v\n", err)
 	}
 
-	for tag, count := range visit(nil, doc){
-		fmt.Printf("%2d: %s\n", tag, count)
+	var tagCounts = make(map[string]int)
+	visit(tagCounts, doc)
+
+	for tag, count := range tagCounts{
+		fmt.Printf("%s:\t %d\n", tag, count)
 	}
 }
 
-// visit は、n 内で見つかったリンクを一つひとつ links へ追加し、
-// その結果を返します。
-func visit(tagCounts map[string]int, n *html.Node) map[string]int {
+// visit は要素の名前を tagCounts に追加し、子要素に対して visit を呼び出します。
+func visit(tagCounts map[string]int, n *html.Node) {
 	if n.Type == html.ElementNode {
 		tagCounts[n.Data]++
 	}
 
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		tagCounts = visit(tagCounts, c)
+		visit(tagCounts, c)
 	}
-
-	return tagCounts
 }

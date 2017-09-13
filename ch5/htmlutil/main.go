@@ -6,8 +6,8 @@ import (
 	"fmt"
 )
 
-// findLinks は url に対して HTTP GET リクエストを行い、レスポンスを
-// HTML としてパースして、リンクを抽出して返します。
+// GetHTML は url に対して HTTP GET リクエストを行い、レスポンスを
+// HTML としてパースして *html.Node を返します。
 func GetHTML(url string) (*html.Node, error) {
 	resp, err := http.Get(url)
 	if err != nil {

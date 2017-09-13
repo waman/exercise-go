@@ -7,19 +7,22 @@ import (
 	"os"
 	"fmt"
 	"golang.org/x/net/html"
+	"log"
+	"github.com/waman/exercise-go/ch5/htmlutil"
 )
 
+// 次節の findlinks2 を参考にして第1章の fetch を実行しなくてよいようにしています。
+// 指定した URL から HTML を読み込むコードは定型文なので htmlutil.GetHTML に
+// 抽出しました。
+//
 // 実行例：
 //
-//   > go build ./ch1/fetch
-//   > go build ./ch5/ex5_1
-//   > fetch https://golang.org | ex5_1
+//   > go run ex5_1 https://golang.org
 //
 func main(){
-	doc, err := html.Parse(os.Stdin)
+	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "ex5_1: %v\n", err)
-		os.Exit(1)
+		log.Fatalf("ex5_1: %v\n", err)
 	}
 
 	for i, link := range visit(nil, doc){
@@ -27,49 +30,46 @@ func main(){
 	}
 }
 
-// visit は、n 内に子ノードがあればそれを走査し、そのノードを除去して
-// 再度 n を走査します。　子ノードが無くなったら n 自身を処理します。
-// （この実装より下記のコメントアウトしているものの方が、
-// 子ノードを削除せず効率的でエレガント！）
+// 下記のコードを参考にしました：
+//
+//   https://github.com/eliben/go-samples/blob/master/gopl-exercises/ch5-findlinks.go
+//
 func visit(links []string, n *html.Node) []string {
-	if c := n.FirstChild; c != nil {
-		// 子ノードがある場合はそれを走査して、そのノードを除去し、
-		// 再度このノードを走査する
-		links = visit(links, c)
-		n.RemoveChild(c)
-		links = visit(links, n)
+	if n == nil {
+		return links
+	}
 
-	}else{
-		// 子ノードが無くなったら、このノードが <a/> の場合に href 属性を links に追加する
-		if n.Type == html.ElementNode && n.Data == "a" {
-			for _, a := range n.Attr {
-				if a.Key == "href" {
-					links = append(links, a.Val)
-				}
+	if n.Type == html.ElementNode && n.Data == "a" {
+		for _, a := range n.Attr {
+			if a.Key == "href" {
+				links = append(links, a.Val)
 			}
 		}
 	}
 
-	return links
+	links = visit(links, n.FirstChild)
+	return visit(links, n.NextSibling)
 }
 
-//// 下記のコードを参考にしました：
-////
-////   https://github.com/eliben/go-samples/blob/master/gopl-exercises/ch5-findlinks.go
-////
+//// 破壊的走査の方法www
 //func visit(links []string, n *html.Node) []string {
-//	if n == nil {
-//		return links
-//	}
+//	if c := n.FirstChild; c != nil {
+//		// 子ノードがある場合はそれを走査して、そのノードを除去し、
+//		// 再度このノードを走査する
+//		links = visit(links, c)
+//		n.RemoveChild(c)
+//		links = visit(links, n)
 //
-//	if n.Type == html.ElementNode && n.Data == "a" {
-//		for _, a := range n.Attr {
-//			if a.Key == "href" {
-//				links = append(links, a.Val)
+//	}else{
+//		// 子ノードが無くなったら、このノードが <a/> の場合に href 属性を links に追加する
+//		if n.Type == html.ElementNode && n.Data == "a" {
+//			for _, a := range n.Attr {
+//				if a.Key == "href" {
+//					links = append(links, a.Val)
+//				}
 //			}
 //		}
 //	}
 //
-//	links = visit(links, n.FirstChild)
-//	return visit(links, n.NextSibling)
+//	return links
 //}
