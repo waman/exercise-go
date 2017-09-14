@@ -22,7 +22,8 @@ import (
 func main(){
 	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
-		log.Fatalf("練習問題 5.2： %v\n", err)
+		fmt.Fprintf(os.Stderr, "練習問題 5.2： %v\n", err)
+		os.Exit(1)
 	}
 
 	var tagCounts = make(map[string]int)

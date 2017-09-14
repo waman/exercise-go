@@ -63,8 +63,8 @@ func visit(w io.Writer, n *html.Node) {
 	}
 }
 
-// 属性がない場合には、複数返り値で error を返す方がいい気がしますが、
-// まだ出てきてないので空文字列を消します。
+// 属性がない場合には、複数返り値で bool 値の ok を返す方がいい気がしますが、
+// まだ出てきてないので空文字列を返します。
 func getAttribute(n *html.Node, name string) string {
 	for _, a := range n.Attr {
 		if a.Key == name {

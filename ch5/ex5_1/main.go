@@ -22,7 +22,8 @@ import (
 func main(){
 	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
-		log.Fatalf("ex5_1: %v\n", err)
+		fmt.Fprintf(os.Stderr, "練習問題 5.1 %v\n", err)
+		os.Exit(1)
 	}
 
 	for i, link := range visit(nil, doc){
