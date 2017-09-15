@@ -41,3 +41,18 @@ func ForEachNode(n *html.Node, pre, post func(n *html.Node)){
 		post(n)
 	}
 }
+
+// BreadthFirst は findLinks3 の breadthFirst と同じです。
+func BreadthFirst(f func(item string) []string, worklist []string){
+	seen := make(map[string]bool)
+	for len(worklist) > 0 {
+		items := worklist
+		worklist = nil
+		for _, item := range items {
+			if !seen[item] {
+				seen[item] = true
+				worklist = append(worklist, f(item)...)
+			}
+		}
+	}
+}
