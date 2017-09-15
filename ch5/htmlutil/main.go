@@ -41,4 +41,3 @@ func ForEachNode(n *html.Node, pre, post func(n *html.Node)){
 		post(n)
 	}
 }
-

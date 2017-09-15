@@ -6,10 +6,16 @@ import (
 	"path"
 	"os"
 	"io"
+	"log"
+	"fmt"
 )
 
 func main(){
-	fetch(os.Args[1])
+	file, n, err := fetch(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s の内容を %s へ書き出しました： %d バイト", os.Args[1], file, n)
 }
 
 func fetch(url string) (filename string, n int64, err error) {

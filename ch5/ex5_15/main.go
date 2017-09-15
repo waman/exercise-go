@@ -20,6 +20,7 @@ import (
 // 最大値、最小値を求めます。　実行例は
 //
 //   > go run ./ch5/ex5_15/main.go 1 3 7 2 5
+//
 func main(){
 	// コマンドライン引数を int スライスに変換
 	var argInts []int
