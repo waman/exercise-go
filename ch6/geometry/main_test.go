@@ -43,3 +43,19 @@ func TestPath(t *testing.T){
 	}
 	if perim.Distance() != 12 { t.Fail() }
 }
+
+func TestTranslate(t *testing.T){
+	perim := Path{
+		{1, 1},
+		{5, 1},
+		{5, 4},
+	}
+
+	v := Point{2, 3}
+
+	perim.TranslateBy(v, true)
+
+	if !(perim[0] == Point{3, 4} &&
+		   perim[1] == Point{7, 4} &&
+	     perim[2] == Point{7, 7}){ t.Fail() }
+}
