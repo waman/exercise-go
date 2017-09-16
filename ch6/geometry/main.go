@@ -2,6 +2,7 @@
 // 実行例
 //
 //   > go test ./ch6/geometry
+//
 package geometry
 
 import "math"
