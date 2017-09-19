@@ -1,3 +1,6 @@
+// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+//
 // dup1 は標準入力から2回以上現れる行を出現回数と一緒に表示します。
 package main
 

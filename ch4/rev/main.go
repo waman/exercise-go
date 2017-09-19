@@ -1,3 +1,6 @@
+// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+//
 // reverse は int のスライスを直接逆順に並べ替えます。
 package main
 

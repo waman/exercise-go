@@ -1,3 +1,6 @@
+// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+//
 // fetchall は、URL を平行に取り出して、時間と大きさを表示します。
 package main
 

@@ -1,3 +1,6 @@
+// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+//
 // dup2 は入力に2回以上現れた行の数とその行のテキストを表示します。
 // 標準入力から読み込むか、名前が指定されたファイルの一覧から読み込みます。
 package main

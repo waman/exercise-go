@@ -1,3 +1,6 @@
+// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+//
 // downserver は、レスポンスを返さないサーバです。
 // wait がサーバからのレスポンスを受け取れずに失敗することを
 // エミュレートするためのサーバです。

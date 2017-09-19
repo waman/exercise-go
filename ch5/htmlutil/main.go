@@ -16,12 +16,12 @@ func GetHTML(url string) (*html.Node, error) {
 	defer resp.Body.Close()  // 5.8節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("getting %s: %s", url, resp.Status)
+		return nil, fmt.Errorf("%s の取得に失敗しました： %s", url, resp.Status)
 	}
 
 	doc, err := html.Parse(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("parsing %s: as HTML: %v", url, err)
+		return nil, fmt.Errorf("%s を HTML としてパースするのに失敗しました： %v", url, err)
 	}
 
 	return doc, nil

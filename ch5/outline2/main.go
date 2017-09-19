@@ -1,3 +1,6 @@
+// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+//
 // forEachNode は n から始まるツリー内の個々のノード x に対して
 // 関数 pre(x) と post(x) を呼び出します。その二つの関数はオプションです。
 // pre は子ノードを訪れる前に呼び出され（前順 : preorder）、
