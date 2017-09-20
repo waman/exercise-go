@@ -15,7 +15,6 @@ import (
 	"math/rand"
 	"image/color"
 	"strconv"
-	"fmt"
 )
 
 var palette = []color.Color{color.White, color.Black}

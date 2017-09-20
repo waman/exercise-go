@@ -6,9 +6,35 @@ import (
 	. "math/big"  // 接頭辞なしで書けるようにするため
 	"image/color"
 	"image"
+	"io"
+	"log"
 )
 
-func main(){
+func main() {
+	var w io.Writer
+
+	if len(os.Args) <= 1 {
+		w = os.Stdout
+	} else {
+		// 引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		defer func() {
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}
+		}()
+
+		w = file
+	}
+
+	outputImageRat(w)
+}
+
+func outputImageRat(w io.Writer){
 	xmin, xmax    := rat(-1, 2), rat(0, 1)
 	ymin, ymax    := rat(-1, 1), rat(-1, 2)
 	width, height := 512, 512
@@ -30,7 +56,7 @@ func main(){
 			img.Set(px, py, mandelbrotRat(x, y))
 		}
 	}
-	png.Encode(os.Stdout, img)
+	png.Encode(w, img)
 }
 
 func rat(i, j int) *Rat{

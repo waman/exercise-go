@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"golang.org/x/net/html"
 	"github.com/waman/exercise-go/ch5/htmlutil"
-	"log"
 	"io"
 )
 

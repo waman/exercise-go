@@ -10,15 +10,33 @@ import (
 	"bufio"
 	"os"
 	"io"
+	"log"
 )
 
-// 実行例
+// 実行例：
 //
-//   > go run ./ch4/ex4_9/main.go < ./ch4/TheGoBlog-strings.txt
+//   > go run ./ch4/ex4_9/main.go ./ch4/TheGoBlog-strings.txt
 //
 // go get でコードを取得した場合は、上記のコマンドではうまく動かないかもしれません。
 func main(){
-	counts := wordfreq(os.Stdin)
+	var r io.Reader
+
+	if len(os.Args) <= 1 {
+		r = os.Stdin
+	}else {
+		// 引数があればファイルから読み取る（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[1], os.O_RDONLY, 0400)
+		if err != nil { log.Fatal(err) }
+
+		defer func(){
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}}()
+
+		r = file
+	}
+
+	counts := wordfreq(r)
 
 	fmt.Printf("\nword\tcount\n")
 	for w, n := range counts {

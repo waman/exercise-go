@@ -6,9 +6,35 @@ import (
 	"image/color"
 	"image"
 	"os"
+	"io"
+	"log"
 )
 
-func main(){
+func main() {
+	var w io.Writer
+
+	if len(os.Args) <= 1 {
+		w = os.Stdout
+	} else {
+		// 引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		defer func() {
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}
+		}()
+
+		w = file
+	}
+
+	outputImageFloat(w)
+}
+
+func outputImageFloat(w io.Writer){
 	minusHalf := newFloat().Quo(fl(-1), fl(2))
 
 	xmin, xmax    := minusHalf, fl(0)
@@ -32,7 +58,7 @@ func main(){
 			img.Set(px, py, mandelbrotFloat(x, y))
 		}
 	}
-	png.Encode(os.Stdout, img)
+	png.Encode(w, img)
 }
 
 func newFloat() *Float{

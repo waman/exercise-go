@@ -9,10 +9,32 @@ import (
 	"os"
 	"image/color"
 	"math/cmplx"
-	"image/color/palette"
+	"io"
+	"log"
 )
 
-func main(){
+func main() {
+	var w io.Writer
+
+	if len(os.Args) <= 1 {
+		w = os.Stdout
+	}else {
+		// 引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil { log.Fatal(err) }
+
+		defer func(){
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}}()
+
+		w = file
+	}
+
+	outputImage(w)
+}
+
+func outputImage(w io.Writer){
 	const(
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
 		width, height          = 1024, 1024
@@ -27,7 +49,7 @@ func main(){
 			img.Set(px, py, mandelbrot(z))
 		}
 	}
-	png.Encode(os.Stdout, img)
+	png.Encode(w, img)
 }
 
 func mandelbrot(z complex128) color.Color {

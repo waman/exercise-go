@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"log"
+	"io"
 )
 
 const(
@@ -40,20 +41,41 @@ func main(){
 		os.Exit(1)
 	}
 
-	fmt.Printf("<svg xmlns='http://www.w3.org/2000/svg' " +
-	  "style='stroke: grey; fill: white; stroke-width:0.7' " +
-	  "width='%d' height='%d'>", width, height)
+	var w io.Writer
+	if len(os.Args) == 2 {
+		w = os.Stdout
+	}else {
+		// 2つ目の引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[2], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil { log.Fatal(err) }
+
+		defer func(){
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}}()
+
+		w = file
+	}
+
+	surface(w, f)
+}
+
+func surface(w io.Writer, f func(float64, float64)float64){
+
+	fmt.Fprintf(w, "<svg xmlns='http://www.w3.org/2000/svg' " +
+		"style='stroke: grey; fill: white; stroke-width:0.7' " +
+		"width='%d' height='%d'>", width, height)
 	for i := 0; i < cells; i++ {
 		for j := 0; j < cells; j++ {
 			ax, ay := corner(i+1, j, f)
 			bx, by := corner(i, j, f)
 			cx, cy := corner(i, j+1, f)
 			dx, dy := corner(i+1,j+1, f)
-			fmt.Printf("<polygon points='%g,%g,%g,%g,%g,%g,%g,%g'/>\n",
-			ax, ay, bx, by, cx, cy, dx, dy)
+			fmt.Fprintf(w, "<polygon points='%g,%g,%g,%g,%g,%g,%g,%g'/>\n",
+				ax, ay, bx, by, cx, cy, dx, dy)
 		}
 	}
-	fmt.Println("</svg>")
+	fmt.Fprint(w, "</svg>")
 }
 
 func corner(i, j int, f func(float64, float64)float64)(float64, float64){

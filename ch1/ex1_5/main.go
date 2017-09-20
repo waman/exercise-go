@@ -15,6 +15,7 @@ import(
 	"io"
 	"image/gif"
 	"math"
+	"log"
 )
 
 var palette2 = []color.Color{color.Black, color.RGBA{0x00, 0xff, 0x00, 0xff}}
@@ -26,10 +27,27 @@ const(
 
 func main(){
 	rand.Seed(time.Now().UTC().UnixNano())
-	lissajous5(os.Stdout)
+	var w io.Writer
+
+	if len(os.Args) <= 1 {
+		w = os.Stdout
+	}else {
+		// 引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil { log.Fatal(err) }
+
+		defer func(){
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}}()
+
+		w = file
+	}
+
+	lissajous(w)
 }
 
-func lissajous5(out io.Writer){
+func lissajous(out io.Writer){
 	const (
 		cycles = 5
 		res = 0.001

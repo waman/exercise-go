@@ -6,15 +6,38 @@ import (
 	"os"
 	"image/color"
 	"math/cmplx"
-)
-
-const(
-	xmin, xmax    = -0.5, 0
-	ymin, ymax    = -1, -0.5
-	width, height = 512, 512
+	"io"
+	"log"
 )
 
 func main(){
+	var w io.Writer
+
+	if len(os.Args) <= 1 {
+		w = os.Stdout
+	}else {
+		// 引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil { log.Fatal(err) }
+
+		defer func(){
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}}()
+
+		w = file
+	}
+
+	outputImageC128(w)
+}
+
+func outputImageC128(w io.Writer){
+	const(
+		xmin, xmax    = -0.5, 0
+		ymin, ymax    = -1, -0.5
+		width, height = 512, 512
+	)
+
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 	for py := 0; py < height; py++ {
 		y := float64(py)/height*(ymax-ymin) + ymin
@@ -24,7 +47,7 @@ func main(){
 			img.Set(px, py, mandelbrotC128(z))
 		}
 	}
-	png.Encode(os.Stdout, img)
+	png.Encode(w, img)
 }
 
 func mandelbrotC128(z complex128) color.Color {

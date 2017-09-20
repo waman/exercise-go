@@ -17,6 +17,9 @@ import (
 	"os"
 )
 
+const min = 1800
+var indexFile = "xkcd-index.json"
+
 type Comic struct {
 	Number int    `json:"num"`
 	Title  string `json:"title"`
@@ -24,21 +27,26 @@ type Comic struct {
 	Image  string `json:"img"`
 }
 
-const min = 1800
-
 // 全てのコミックを書き出すのは大変なので、最新 (No.1886) から No.1800 までを書き出してます。
 //
 // 実行例：
 //
-//   > go run ./ch4/ex4_12/main.go > xkcd-index.json
+//   > go run ./ch4/ex4_12/main.go
 //
-// 作成したインデックスファイルを使用して URL と内容を表示するプログラムは
-// xkcd 参照。
+// 作成したインデックスファイルを使用して URL と内容を表示するプログラムは xkcd 参照。
 func main() {
-	createIndex(os.Stdout)
+	// 引数があればファイルに出力（os パッケージのドキュメント参照）
+	file, err := os.OpenFile(indexFile, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+	if err != nil { log.Fatal(err) }
+
+	defer func(){
+		if cErr := file.Close(); err == nil && cErr != nil {
+			log.Fatal(err)
+		}}()
+
+	createIndex(file)
 }
 
-// この処理中では io.Writer を閉じません。
 func createIndex(w io.Writer) {
 	fmt.Fprint(w, "[")
 	var sep = ""

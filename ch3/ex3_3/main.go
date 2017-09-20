@@ -6,6 +6,9 @@ package main
 import (
 	. "math"  // 接頭辞なしで呼び出せるようにする
 	"fmt"
+	"io"
+	"os"
+	"log"
 )
 
 const(
@@ -20,7 +23,28 @@ const(
 var sin30, cos30 = Sin(angle), Cos(angle)
 
 func main(){
-	fmt.Printf("<svg xmlns='http://www.w3.org/2000/svg' " +
+	var w io.Writer
+
+	if len(os.Args) <= 1 {
+		w = os.Stdout
+	}else {
+		// 引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil { log.Fatal(err) }
+
+		defer func(){
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}}()
+
+		w = file
+	}
+
+	surface(w)
+}
+
+func surface(w io.Writer){
+	fmt.Fprintf(w, "<svg xmlns='http://www.w3.org/2000/svg' " +
 	  "style='stroke: grey; fill: white; stroke-width:0.7' " +
 	  "width='%d' height='%d'>", width, height)
 	for i := 0; i < cells; i++ {
@@ -43,11 +67,11 @@ func main(){
 				c = fmt.Sprintf("#%02x%02[1]xff", int(255.0*(1+Cbrt(top))))
 			}
 
-			fmt.Printf("<polygon points='%g,%g,%g,%g,%g,%g,%g,%g' fill='%s'/>\n",
-			  ax, ay, bx, by, cx, cy, dx, dy, c)
+			fmt.Fprintf(w, "<polygon points='%g,%g,%g,%g,%g,%g,%g,%g' fill='%s'/>\n",
+			                ax, ay, bx, by, cx, cy, dx, dy, c)
 		}
 	}
-	fmt.Println("</svg>")
+	fmt.Fprint(w, "</svg>")
 }
 
 func corner(i, j int)(float64, float64, float64){

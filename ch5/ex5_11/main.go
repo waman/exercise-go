@@ -1,3 +1,6 @@
+// 【練習問題 5.11】
+// 線型代数 (linear algebra) の講座の講師が、これからは微積分学 (calculus)
+// を事前条件にすると決めました。循環を報告するように topoSort 関数を拡張しなさい。
 package main
 
 import (

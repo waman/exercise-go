@@ -7,7 +7,6 @@ import (
 	"os"
 	"fmt"
 	"golang.org/x/net/html"
-	"log"
 	"github.com/waman/exercise-go/ch5/htmlutil"
 )
 

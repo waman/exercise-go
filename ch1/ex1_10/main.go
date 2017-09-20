@@ -12,34 +12,53 @@ import (
 	"fmt"
 	"net/http"
 	"io"
+	"log"
 )
 
+// fetchall と異なり、一度に1つのサイトしか取得できません。
+// 実行例：
+//
+//   > go build ./ch1/ex1_10/main.go
+//   > ex1_10 http://amazon.co.jp amazon1.html
+//   > ex1_10 http://amazon.co.jp amazon2.html
+//
 func main(){
+	var w io.Writer
+
+	switch len(os.Args){
+	case 1:
+		fmt.Println("取得するサイトと、必要なら出力するファイル名を指定してください。")
+	case 2:
+		w = os.Stdout
+	default:
+		// 第2引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[2], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil { log.Fatal(err) }
+
+		defer func(){
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}}()
+
+		w = file
+	}
+
 	start := time.Now()
 	ch := make(chan string)
-	for _, url := range os.Args[1:] {
-		go fetch(url, ch)
-	}
-	for range os.Args[1:]{
-		fmt.Println(<- ch)
-	}
+	go fetch(os.Args[1], w, ch)
+	fmt.Println(<- ch)
+
 	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
 }
 
-func fetch(url string, ch chan<- string) {
+func fetch(url string, w io.Writer, ch chan<-string) {
 	start := time.Now()
 	resp, err := http.Get(url)
 	if err != nil {
 		ch <- fmt.Sprint(err)
 		return
 	}
-
-	// ファイルへ直接書き出す方法はまだ出てきていないので
-	// 標準出力へ書き出して、実行時にファイルを指定して送る。
-	//   $ go build exercise10.go
-	//   $ exercise10 http://amazon.co.jp > amazon1.html
-	//   $ exercise10 http://amazon.co.jp > amazon2.html
-	nbytes, err := io.Copy(os.Stdout, resp.Body)
+	nbytes, err := io.Copy(w, resp.Body)
 	resp.Body.Close()
 	if err != nil {
 		ch <- fmt.Sprintf("while reading %s: %v", url, err)

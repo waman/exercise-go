@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"golang.org/x/net/html"
 	"github.com/waman/exercise-go/ch5/htmlutil"
-	"log"
 )
 
 // 次節の findlinks2 を参考にして第1章の fetch を実行しなくてよいようにしています。

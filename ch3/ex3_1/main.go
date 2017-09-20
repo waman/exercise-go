@@ -8,6 +8,9 @@ package main
 import (
 	"math"
 	"fmt"
+	"io"
+	"os"
+	"log"
 )
 
 const(
@@ -22,7 +25,28 @@ const(
 var sin30, cos30 = math.Sin(angle), math.Cos(angle)
 
 func main(){
-	fmt.Printf("<svg xmlns='http://www.w3.org/2000/svg' " +
+	var w io.Writer
+
+	if len(os.Args) <= 1 {
+		w = os.Stdout
+	}else {
+		// 引数があればファイルに出力（os パッケージのドキュメント参照）
+		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
+		if err != nil { log.Fatal(err) }
+
+		defer func(){
+			if cErr := file.Close(); err == nil && cErr != nil {
+				log.Fatal(err)
+			}}()
+
+		w = file
+	}
+
+	surface(w)
+}
+
+func surface(w io.Writer){
+	fmt.Fprintf(w, "<svg xmlns='http://www.w3.org/2000/svg' " +
 	  "style='stroke: grey; fill: white; stroke-width:0.7' " +
 	  "width='%d' height='%d'>", width, height)
 	for i := 0; i < cells; i++ {
@@ -40,11 +64,11 @@ func main(){
 			dx, dy := corner(i+1,j+1)
 			if IsNotFinite(dy) { continue }
 
-			fmt.Printf("<polygon points='%g,%g,%g,%g,%g,%g,%g,%g'/>\n",
-			ax, ay, bx, by, cx, cy, dx, dy)
+			fmt.Fprintf(w, "<polygon points='%g,%g,%g,%g,%g,%g,%g,%g'/>\n",
+			                ax, ay, bx, by, cx, cy, dx, dy)
 		}
 	}
-	fmt.Println("</svg>")
+	fmt.Fprint(w, "</svg>")
 }
 
 // 引数が有限でない（正負の無限か NaN）なら true を、そうでないならfalse を返します。
