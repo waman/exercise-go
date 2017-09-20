@@ -25,7 +25,7 @@ func main(){
 		r = os.Stdin
 	}else {
 		// 引数があればファイルから読み取る（os パッケージのドキュメント参照）
-		file, err := os.OpenFile(os.Args[1], os.O_RDONLY, 0400)
+		file, err := os.Open(os.Args[1])
 		if err != nil { log.Fatal(err) }
 
 		defer func(){
