@@ -79,19 +79,21 @@ func crawl(urlStr string) []string {
 
 // 第1返り値の *URL は、リダイレクトなどで URL が変更された場合に使います。
 // 第2返り値は Content-Type です。
-func readAll(url *URL) (*URL, string, []byte, error) {
+func readAll(url *URL) (rURL *URL, contentType string, content []byte, err error) {
 	resp, err := http.Get(url.String())
 	if err != nil {
-		return nil, "", nil, err
+		return
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, "", nil, fmt.Errorf("%s の取得に失敗しました： %s", url, resp.Status)
+		err = fmt.Errorf("%s の取得に失敗しました： %s", url, resp.Status)
+		return
 	}
 
-	content, err := ioutil.ReadAll(resp.Body)
-	return resp.Request.URL, resp.Header.Get("Content-Type"), content, err
+	content, err = ioutil.ReadAll(resp.Body)
+	rURL, contentType = resp.Request.URL, resp.Header.Get("Content-Type")
+	return
 }
 
 func output(url *URL, content []byte) error {
