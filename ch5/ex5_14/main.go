@@ -6,14 +6,14 @@
 package main
 
 import (
-	"github.com/waman/exercise-go/ch5/htmlutil"
 	"fmt"
+	"github.com/waman/exercise-go/ch5/htmlutil"
 	"os"
 )
 
 // 無向グラフは循環を除く処理を行わないといけないで教育的だと思いますが、
 // ここでは扱いません。
-func main(){
+func main() {
 	fmt.Println("講座の依存関係の解析")
 	analyzeClasses()
 	fmt.Println()
@@ -31,18 +31,18 @@ var prereqs = map[string][]string{
 		"formal languages",
 		"computer organization",
 	},
-	"data structures": {"discrete math"},
-	"databases": {"data structures"},
-	"discrete math": {"intro to programming"},
-	"formal languages": {"discrete math"},
-	"networks": {"operating systems"},
-	"operating systems": {"data structures", "computer organization"},
+	"data structures":       {"discrete math"},
+	"databases":             {"data structures"},
+	"discrete math":         {"intro to programming"},
+	"formal languages":      {"discrete math"},
+	"networks":              {"operating systems"},
+	"operating systems":     {"data structures", "computer organization"},
 	"programming languages": {"data structures", "computer organization"},
 }
 
-func analyzeClasses(){
+func analyzeClasses() {
 	var keys = make([]string, len(prereqs))
-	for key, _ := range prereqs {
+	for key := range prereqs {
 		keys = append(keys, key)
 	}
 
@@ -54,13 +54,15 @@ func crawlClasses(class string) []string {
 	return prereqs[class]
 }
 
-func analyzeDirectoryStructure(){
+func analyzeDirectoryStructure() {
 	htmlutil.BreadthFirst(crawlFiles, []string{"."})
 }
 
 func crawlFiles(filename string) []string {
 	// .git 内はファイルがたくさんあるので無視
-	if filename == "./.git" { return nil }
+	if filename == "./.git" {
+		return nil
+	}
 
 	file, err := os.Open(filename)
 
@@ -69,10 +71,11 @@ func crawlFiles(filename string) []string {
 		return nil
 	}
 
-	defer func(){
+	defer func() {
 		if cErr := file.Close(); err == nil && cErr != nil {
 			fmt.Fprintln(os.Stderr, err)
-		}}()
+		}
+	}()
 
 	fi, err := os.Lstat(filename)
 	if err != nil {
@@ -90,12 +93,12 @@ func crawlFiles(filename string) []string {
 		}
 
 		for i, dir := range dirs {
-			dirs[i] = filename+"/"+dir
+			dirs[i] = filename + "/" + dir
 		}
 
 		return dirs
 
-	}else{
+	} else {
 		fmt.Printf("[File] %s\n", filename)
 		return nil
 	}
