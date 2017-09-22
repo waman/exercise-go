@@ -8,18 +8,18 @@ import (
 	"fmt"
 )
 
-type Kelvin     float64
-type Celsius    float64
+type Kelvin float64
+type Celsius float64
 type Fahrenheit float64
 
-const(
+const (
 	AbsoluteZero Kelvin = 0
 	Freezing     Kelvin = 273.15
 	Boiling      Kelvin = 373.15
 )
 
-func (t Kelvin)     String() string { return fmt.Sprintf("%gK", t) }
-func (c Celsius)    String() string { return fmt.Sprintf("%g°C", c) }
+func (t Kelvin) String() string     { return fmt.Sprintf("%gK", t) }
+func (c Celsius) String() string    { return fmt.Sprintf("%g°C", c) }
 func (f Fahrenheit) String() string { return fmt.Sprintf("%g°F", f) }
 
 // KToC は絶対温度を摂氏へ変換します
@@ -32,7 +32,7 @@ func CToK(c Celsius) Kelvin { return Kelvin(float64(c) + float64(Freezing)) }
 func CToF(c Celsius) Fahrenheit { return Fahrenheit(c*9/5 + 32) }
 
 // FToC は華氏を摂氏へ変換します
-func FToC(f Fahrenheit) Celsius { return Celsius((f-32))*5/9 }
+func FToC(f Fahrenheit) Celsius { return Celsius((f - 32)) * 5 / 9 }
 
 // KToF は絶対温度を華氏へ変換します
 func KToF(t Kelvin) Fahrenheit { return CToF(KToC(t)) }
@@ -40,8 +40,7 @@ func KToF(t Kelvin) Fahrenheit { return CToF(KToC(t)) }
 // FToK は華氏を絶対温度へ変換します
 func FToK(f Fahrenheit) Kelvin { return CToK(FToC(f)) }
 
-
-func main(){
+func main() {
 	fmt.Printf("絶対零度は %gK\n", AbsoluteZero)
 	fmt.Printf("水の融点は %gK\n", Freezing)
 	fmt.Printf("水の沸点は %gK\n", Boiling)

@@ -4,12 +4,12 @@
 package main
 
 import (
-	"os"
 	"fmt"
-	"golang.org/x/net/html"
 	"github.com/waman/exercise-go/ch5/htmlutil"
-	"log"
+	"golang.org/x/net/html"
 	"io"
+	"log"
+	"os"
 )
 
 // 次節の findlinks2 を参考にして第1章の fetch を実行しなくてよいようにしています。
@@ -20,7 +20,7 @@ import (
 //
 //   > go run ex5_4 https://golang.org
 //
-func main(){
+func main() {
 	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
 		log.Fatalf("練習問題 5.4： %v\n", err)
@@ -29,23 +29,23 @@ func main(){
 	visit(os.Stdout, doc)
 }
 
-var linkAtts = map[string]string {
-	"img"   :"src",
-	"script":"src",
-	"link"  :"href",
+var linkAtts = map[string]string{
+	"img":    "src",
+	"script": "src",
+	"link":   "href",
 
-	"table" :"background",
-	"td"    :"background",
-	"th"    :"background",
-	"tr"    :"background",
+	"table": "background",
+	"td":    "background",
+	"th":    "background",
+	"tr":    "background",
 
-	"input" :"src",
+	"input": "src",
 
-	"object":"data",
-	"audio" :"src",
-	"track" :"src",
-	"video" :"src",  // "video":"poster"
-	"source":"src",
+	"object": "data",
+	"audio":  "src",
+	"track":  "src",
+	"video":  "src", // "video":"poster"
+	"source": "src",
 }
 
 // visit は要素 n 内のリンクを w へ書き出します。

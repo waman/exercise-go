@@ -3,9 +3,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
-	"fmt"
 )
 
 // 実行例：
@@ -15,7 +15,7 @@ import (
 //   > go build ./ch1/fetch
 //   > fetch http://localhost:8000
 //
-func main(){
+func main() {
 	db := database{"shoes": 50, "socks": 5}
 
 	log.Println("http1 starts...")
@@ -28,7 +28,7 @@ func (d dollars) String() string { return fmt.Sprintf("$%.2f", d) }
 
 type database map[string]dollars
 
-func (db database) ServeHTTP(w http.ResponseWriter, req *http.Request){
+func (db database) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	for item, price := range db {
 		fmt.Fprintf(w, "%s: %s\n", item, price)
 	}

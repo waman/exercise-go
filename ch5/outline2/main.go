@@ -8,11 +8,11 @@
 package main
 
 import (
-	"golang.org/x/net/html"
-	"os"
 	"fmt"
-	"net/http"
+	"golang.org/x/net/html"
 	"log"
+	"net/http"
+	"os"
 )
 
 // 実行例：
@@ -21,7 +21,7 @@ import (
 //   > go build ./ch5/outline2
 //   > fetch https://golang.org | outline
 //
-func main(){
+func main() {
 	url := os.Args[1]
 
 	resp, err := http.Get(os.Args[1])
@@ -42,21 +42,21 @@ func main(){
 
 var depth int
 
-func startElement(n *html.Node){
+func startElement(n *html.Node) {
 	if n.Type == html.ElementNode {
 		fmt.Printf("%*s<%s>\n", depth*2, "", n.Data)
 		depth++
 	}
 }
 
-func endElement(n *html.Node){
+func endElement(n *html.Node) {
 	if n.Type == html.ElementNode {
 		depth--
 		fmt.Printf("%*s</%s>\n", depth*2, "", n.Data)
 	}
 }
 
-func forEachNode(n *html.Node, pre, post func(n *html.Node)){
+func forEachNode(n *html.Node, pre, post func(n *html.Node)) {
 	if pre != nil {
 		pre(n)
 	}
@@ -69,4 +69,3 @@ func forEachNode(n *html.Node, pre, post func(n *html.Node)){
 		post(n)
 	}
 }
-

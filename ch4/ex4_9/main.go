@@ -6,11 +6,11 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
-	"os"
+	"fmt"
 	"io"
 	"log"
+	"os"
 )
 
 // 実行例：
@@ -18,20 +18,23 @@ import (
 //   > go run ./ch4/ex4_9/main.go ./ch4/TheGoBlog-strings.txt
 //
 // go get でコードを取得した場合は、上記のコマンドではうまく動かないかもしれません。
-func main(){
+func main() {
 	var r io.Reader
 
 	if len(os.Args) <= 1 {
 		r = os.Stdin
-	}else {
+	} else {
 		// 引数があればファイルから読み取る（os パッケージのドキュメント参照）
 		file, err := os.Open(os.Args[1])
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		r = file
 	}
@@ -55,4 +58,3 @@ func wordfreq(r io.Reader) map[string]int {
 
 	return counts
 }
-

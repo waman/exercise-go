@@ -5,12 +5,12 @@ package main
 
 import (
 	"image"
-	"image/png"
-	"os"
 	"image/color"
-	"math/cmplx"
+	"image/png"
 	"io"
 	"log"
+	"math/cmplx"
+	"os"
 )
 
 func main() {
@@ -18,15 +18,18 @@ func main() {
 
 	if len(os.Args) <= 1 {
 		w = os.Stdout
-	}else {
+	} else {
 		// 引数があればファイルに出力（os パッケージのドキュメント参照）
 		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		w = file
 	}
@@ -34,8 +37,8 @@ func main() {
 	outputImage(w)
 }
 
-func outputImage(w io.Writer){
-	const(
+func outputImage(w io.Writer) {
+	const (
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
 		width, height          = 1024, 1024
 	)
@@ -54,17 +57,17 @@ func outputImage(w io.Writer){
 
 func mandelbrot(z complex128) color.Color {
 	const iterations = 255
-	const contrast   = 30
+	const contrast = 30
 
 	var v complex128
 	for n := uint8(0); n < iterations; n++ {
 		v = v*v + z
 		if cmplx.Abs(v) > 2 {
 			y := 255 - contrast*n
-			return color.RGBA{ y, 0xff, y, 0xff }
+			return color.RGBA{y, 0xff, y, 0xff}
 		}
 	}
-	return color.RGBA{ 0x00, 0x00, 0xff, 0xff }
+	return color.RGBA{0x00, 0x00, 0xff, 0xff}
 }
 
 // palette.Plan9 を使ったバージョン

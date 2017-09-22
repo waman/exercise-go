@@ -4,11 +4,11 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
-func main(){
+func main() {
 	var s, sep string
 	for _, arg := range os.Args {
 		s += sep + arg

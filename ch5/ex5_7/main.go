@@ -7,12 +7,12 @@
 package main
 
 import (
+	"fmt"
 	"github.com/waman/exercise-go/ch5/htmlutil"
-	"os"
-	"log"
 	"golang.org/x/net/html"
 	"io"
-	"fmt"
+	"log"
+	"os"
 )
 
 // 実行例：
@@ -23,17 +23,17 @@ import (
 //
 //    > go test ./ch5/ex5_7
 //
-func main(){
+func main() {
 	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
 
-  PrettyPrint(doc, os.Stdout)
+	PrettyPrint(doc, os.Stdout)
 }
 
-func PrettyPrint(n *html.Node, w io.Writer){
-	pre := func(n *html.Node){
+func PrettyPrint(n *html.Node, w io.Writer) {
+	pre := func(n *html.Node) {
 		switch n.Type {
 		case html.DoctypeNode:
 			fmt.Fprintf(w, "<!DOCTYPE %s>", n.Data)
@@ -58,16 +58,16 @@ func PrettyPrint(n *html.Node, w io.Writer){
 		case html.CommentNode:
 			fmt.Fprintf(w, "<!--%s-->", n.Data)
 
-		default:  // case html.ErrorNode:
+		default: // case html.ErrorNode:
 			fmt.Errorf("Unknow node type appears: %s", n)
 		}
 	}
 
-	post := func(n *html.Node){
+	post := func(n *html.Node) {
 		if n.Type == html.ElementNode && n.FirstChild != nil {
 			fmt.Fprintf(w, "</%s>", n.Data)
 		}
 	}
 
-  htmlutil.ForEachNode(n, pre, post)
+	htmlutil.ForEachNode(n, pre, post)
 }

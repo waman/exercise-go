@@ -14,7 +14,7 @@ import (
 	"fmt"
 )
 
-func main(){
+func main() {
 	fmt.Println("同ディレクトリ内の次のいずれかを実行してください。")
 	fmt.Println("  mainC64.go")
 	fmt.Println("  mainC128.go")

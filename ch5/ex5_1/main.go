@@ -4,10 +4,10 @@
 package main
 
 import (
-	"os"
 	"fmt"
-	"golang.org/x/net/html"
 	"github.com/waman/exercise-go/ch5/htmlutil"
+	"golang.org/x/net/html"
+	"os"
 )
 
 // 次節の findlinks2 を参考にして第1章の fetch を実行しなくてよいようにしています。
@@ -18,14 +18,14 @@ import (
 //
 //   > go run ex5_1 https://golang.org
 //
-func main(){
+func main() {
 	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "練習問題 5.1 %v\n", err)
 		os.Exit(1)
 	}
 
-	for i, link := range visit(nil, doc){
+	for i, link := range visit(nil, doc) {
 		fmt.Printf("%2d: %s\n", i, link)
 	}
 }

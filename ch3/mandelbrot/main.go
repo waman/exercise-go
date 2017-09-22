@@ -6,14 +6,14 @@ package main
 
 import (
 	"image"
-	"image/png"
-	"os"
 	"image/color"
+	"image/png"
 	"math/cmplx"
+	"os"
 )
 
-func main(){
-	const(
+func main() {
+	const (
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
 		width, height          = 1024, 1024
 	)
@@ -32,13 +32,13 @@ func main(){
 
 func mandelbrot(z complex128) color.Color {
 	const iterations = 200
-	const contrast   = 15
+	const contrast = 15
 
 	var v complex128
 	for n := uint8(0); n < iterations; n++ {
 		v = v*v + z
 		if cmplx.Abs(v) > 2 {
-			return color.Gray{ Y:255 - contrast*n }  // フィールドに名前をつけて初期化
+			return color.Gray{Y: 255 - contrast*n} // フィールドに名前をつけて初期化
 		}
 	}
 	return color.Black

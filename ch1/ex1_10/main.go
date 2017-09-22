@@ -7,12 +7,12 @@
 package main
 
 import (
-	"time"
-	"os"
 	"fmt"
-	"net/http"
 	"io"
 	"log"
+	"net/http"
+	"os"
+	"time"
 )
 
 // fetchall と異なり、一度に1つのサイトしか取得できません。
@@ -22,10 +22,10 @@ import (
 //   > ex1_10 http://amazon.co.jp amazon1.html
 //   > ex1_10 http://amazon.co.jp amazon2.html
 //
-func main(){
+func main() {
 	var w io.Writer
 
-	switch len(os.Args){
+	switch len(os.Args) {
 	case 1:
 		fmt.Println("取得するサイトと、必要なら出力するファイル名を指定してください。")
 	case 2:
@@ -33,12 +33,15 @@ func main(){
 	default:
 		// 第2引数があればファイルに出力（os パッケージのドキュメント参照）
 		file, err := os.OpenFile(os.Args[2], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		w = file
 	}
@@ -46,12 +49,12 @@ func main(){
 	start := time.Now()
 	ch := make(chan string)
 	go fetch(os.Args[1], w, ch)
-	fmt.Println(<- ch)
+	fmt.Println(<-ch)
 
 	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
 }
 
-func fetch(url string, w io.Writer, ch chan<-string) {
+func fetch(url string, w io.Writer, ch chan<- string) {
 	start := time.Now()
 	resp, err := http.Get(url)
 	if err != nil {

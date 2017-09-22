@@ -1,14 +1,14 @@
 package main
 
 import (
-	"testing"
-	"github.com/waman/exercise-go/ch5/htmlutil"
-	"strings"
 	"bytes"
+	"github.com/waman/exercise-go/ch5/htmlutil"
 	"golang.org/x/net/html"
+	"strings"
+	"testing"
 )
 
-func Testプリティプリンタで出力したHTMLがパースできる(t *testing.T){
+func Testプリティプリンタで出力したHTMLがパースできる(t *testing.T) {
 	//url := "https://golang.org"
 	url := "http://gopl.io"
 	doc, _ := htmlutil.GetHTML(url)

@@ -1,9 +1,9 @@
 package htmlutil
 
 import (
+	"fmt"
 	"golang.org/x/net/html"
 	"net/http"
-	"fmt"
 )
 
 // GetHTML は url に対して HTTP GET リクエストを行い、レスポンスを
@@ -13,7 +13,7 @@ func GetHTML(url string) (*html.Node, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()  // 5.8節「遅延関数呼び出し」参照
+	defer resp.Body.Close() // 5.8節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("%s の取得に失敗しました： %s", url, resp.Status)
@@ -28,7 +28,7 @@ func GetHTML(url string) (*html.Node, error) {
 }
 
 // outline2 のものと同じ。　ただしパブリックにしています。
-func ForEachNode(n *html.Node, pre, post func(n *html.Node)){
+func ForEachNode(n *html.Node, pre, post func(n *html.Node)) {
 	if pre != nil {
 		pre(n)
 	}
@@ -43,7 +43,7 @@ func ForEachNode(n *html.Node, pre, post func(n *html.Node)){
 }
 
 // BreadthFirst は findLinks3 の breadthFirst と同じです。
-func BreadthFirst(f func(item string) []string, worklist []string){
+func BreadthFirst(f func(item string) []string, worklist []string) {
 	seen := make(map[string]bool)
 	for len(worklist) > 0 {
 		items := worklist

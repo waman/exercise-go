@@ -10,13 +10,13 @@
 package main
 
 import (
-	"golang.org/x/net/html"
-	"strings"
-	"log"
 	"fmt"
+	"golang.org/x/net/html"
+	"log"
+	"strings"
 )
 
-func main(){
+func main() {
 	text := `<ol><li id="1">first</li><li id="2">second</li><li id="3">third</li></ol>`
 	doc, err := html.Parse(strings.NewReader(text))
 	if err != nil {
@@ -24,7 +24,7 @@ func main(){
 	}
 
 	node := ElementByID(doc, "2")
-	fmt.Println(node.FirstChild.Data)  // second
+	fmt.Println(node.FirstChild.Data) // second
 }
 
 func ElementByID(doc *html.Node, id string) *html.Node {
@@ -48,13 +48,13 @@ func ElementByID(doc *html.Node, id string) *html.Node {
 func getAttribute(n *html.Node, name string) (string, bool) {
 	for _, a := range n.Attr {
 		if a.Key == name {
-      return a.Val, true
+			return a.Val, true
 		}
 	}
 	return "", false
 }
 
-func forEachNode(n *html.Node, pre, post func(*html.Node)bool) bool {
+func forEachNode(n *html.Node, pre, post func(*html.Node) bool) bool {
 	if pre != nil {
 		if !pre(n) {
 			return false

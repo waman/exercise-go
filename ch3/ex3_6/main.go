@@ -6,28 +6,31 @@ package main
 
 import (
 	"image"
-	"image/png"
-	"os"
 	"image/color"
-	"math/cmplx"
+	"image/png"
 	"io"
 	"log"
+	"math/cmplx"
+	"os"
 )
 
-func main(){
+func main() {
 	var w io.Writer
 
 	if len(os.Args) <= 1 {
 		w = os.Stdout
-	}else {
+	} else {
 		// 引数があればファイルに出力（os パッケージのドキュメント参照）
 		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		w = file
 	}
@@ -35,12 +38,12 @@ func main(){
 	outputImage(w)
 }
 
-func outputImage(w io.Writer){
-	const(
+func outputImage(w io.Writer) {
+	const (
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
 		width, height          = 1024, 1024
-		dx = float64(xmax-xmin)/width  // 画素の x 方向の幅（もしくは隣り合う画素の左上端どうしの距離）
-		dy = float64(ymax-ymin)/height // 画素の y 方向の幅
+		dx                     = float64(xmax-xmin) / width  // 画素の x 方向の幅（もしくは隣り合う画素の左上端どうしの距離）
+		dy                     = float64(ymax-ymin) / height // 画素の y 方向の幅
 	)
 
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
@@ -57,8 +60,8 @@ func outputImage(w io.Writer){
 			c4 := mandelbrot(complex(x+dx/2, y+dy/2))
 
 			// 色の平均。桁あふれを起こすので大きい型に変換してから計算している。
-			ave := uint8((uint16(c1.Y)+uint16(c2.Y)+uint16(c3.Y)+uint16(c4.Y))/4)
-			c := color.Gray{ ave }
+			ave := uint8((uint16(c1.Y) + uint16(c2.Y) + uint16(c3.Y) + uint16(c4.Y)) / 4)
+			c := color.Gray{ave}
 
 			img.Set(px, py, c)
 		}
@@ -70,7 +73,7 @@ func outputImage(w io.Writer){
 // 繰り返しを抜けた場合の黒色も Gray{0} に変更しています。
 func mandelbrot(z complex128) color.Gray {
 	const iterations = 200
-	const contrast   = 15
+	const contrast = 15
 
 	var v complex128
 	for n := uint8(0); n < iterations; n++ {
@@ -79,5 +82,5 @@ func mandelbrot(z complex128) color.Gray {
 			return color.Gray{255 - contrast*n}
 		}
 	}
-	return color.Gray{0}  // 黒色
+	return color.Gray{0} // 黒色
 }

@@ -2,7 +2,7 @@ package ex2_3
 
 var pc [256]byte
 
-func init(){
+func init() {
 	for i := range pc {
 		pc[i] = pc[i/2] + byte(i&1)
 	}
@@ -21,7 +21,7 @@ func PopCount(x uint64) int {
 
 func PopCountByLoop(x uint64) int {
 	var bitCount byte = 0
-	for n := uint(0); n < 64; n+=8 {
+	for n := uint(0); n < 64; n += 8 {
 		bitCount += pc[byte(x>>n)]
 	}
 	return int(bitCount)

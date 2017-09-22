@@ -5,18 +5,20 @@
 package main
 
 import (
-	"fmt"
 	"crypto/sha256"
-	"os"
 	"crypto/sha512"
+	"fmt"
+	"os"
 )
 
 // 入力文字列の SHA256 ハッシュを表示します。
 // 第2引数に 384 もしくは 512 を指定すると、それぞれ SHA384, SHA512 ハッシュ
 // を表示します。
-func main(){
+func main() {
 	var flag string = ""
-	if len(os.Args) >=3 { flag = os.Args[2] }
+	if len(os.Args) >= 3 {
+		flag = os.Args[2]
+	}
 
 	switch flag {
 	case "384":

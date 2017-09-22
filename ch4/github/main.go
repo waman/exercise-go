@@ -10,12 +10,12 @@
 package github
 
 import (
-	"time"
+	"encoding/json"
+	"fmt"
+	"net/http"
 	"net/url"
 	"strings"
-	"net/http"
-	"fmt"
-	"encoding/json"
+	"time"
 )
 
 const IssuesURL = "https://api.github.com/search/issues"
@@ -32,7 +32,7 @@ type Issue struct {
 	State     string
 	User      *User
 	CreatedAt time.Time `json:"created_at"`
-	Body      string  // マークダウン形式
+	Body      string    // マークダウン形式
 }
 
 type User struct {
@@ -41,7 +41,7 @@ type User struct {
 }
 
 // SearchIssues は GitHub のイシュートラッカーに問い合わせます。
-func SearchIssues(terms []string) (*IssueSearchResult, error){
+func SearchIssues(terms []string) (*IssueSearchResult, error) {
 	q := url.QueryEscape(strings.Join(terms, " "))
 	resp, err := http.Get(IssuesURL + "?q=" + q)
 	if err != nil {

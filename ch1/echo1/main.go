@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func main(){
+func main() {
 	var s, sep string
 	for i := 1; i < len(os.Args); i++ {
 		s += sep + os.Args[i]
@@ -17,5 +17,3 @@ func main(){
 	}
 	fmt.Println(s)
 }
-
-

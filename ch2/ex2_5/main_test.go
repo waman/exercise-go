@@ -17,11 +17,11 @@
 package ex2_5
 
 import (
-	"testing"
 	"math/rand"
+	"testing"
 )
 
-func Testビットクリアによるバージョンが正しい結果を与える(t *testing.T){
+func Testビットクリアによるバージョンが正しい結果を与える(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		x := rand.Uint64()
 		if y, z := PopCount(x), PopCountWithBitClear(x); y != z {
@@ -32,13 +32,13 @@ func Testビットクリアによるバージョンが正しい結果を与え�
 
 var x = rand.Uint64()
 
-func Benchmark通常のバージョン(b *testing.B){
+func Benchmark通常のバージョン(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		PopCount(x)
 	}
 }
 
-func Benchmarkビットクリアによるバージョン(b *testing.B){
+func Benchmarkビットクリアによるバージョン(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		PopCountWithBitClear(x)
 	}

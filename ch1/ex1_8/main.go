@@ -4,14 +4,14 @@
 package main
 
 import (
-	"os"
-	"net/http"
 	"fmt"
 	"io"
+	"net/http"
+	"os"
 	"strings"
 )
 
-func main(){
+func main() {
 	for _, url := range os.Args[1:] {
 		if !strings.HasPrefix(url, "http://") {
 			url = "http://" + url

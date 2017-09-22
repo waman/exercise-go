@@ -4,12 +4,12 @@ package main
 
 import "fmt"
 
-func main(){
+func main() {
 	f(3)
 }
 
-func f(x int){
-	fmt.Printf("f(%d)\n", x+0/x)  // x == 0 ならパニック
+func f(x int) {
+	fmt.Printf("f(%d)\n", x+0/x) // x == 0 ならパニック
 	defer fmt.Printf("defer %d\n", x)
-	f(x-1)
+	f(x - 1)
 }

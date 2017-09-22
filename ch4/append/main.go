@@ -4,7 +4,7 @@ package main
 
 import "fmt"
 
-func main(){
+func main() {
 	var x, y []int
 	for i := 0; i < 10; i++ {
 		y = appendInt(x, i)
@@ -18,10 +18,10 @@ func appendInt(x []int, y int) []int {
 	zlen := len(x) + 1
 	if zlen <= cap(x) {
 		z = x[:zlen]
-	}else{
+	} else {
 		zcap := zlen
 		if zcap < 2*len(x) {
-			zcap = 2*len(x)
+			zcap = 2 * len(x)
 		}
 		z = make([]int, zlen, zcap)
 		copy(z, x)

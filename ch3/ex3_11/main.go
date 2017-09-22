@@ -4,15 +4,15 @@
 package main
 
 import (
-	"os"
 	"bufio"
 	"fmt"
+	"os"
 	"strings"
 )
 
 // コマンドライン引数（なければ標準入力）で与えられた数値に comma を
 // 適用して表示する
-func main(){
+func main() {
 	args := os.Args[1:]
 	if len(args) == 0 {
 		input := bufio.NewScanner(os.Stdin)
@@ -33,7 +33,7 @@ func main(){
 func comma(s string) string {
 	// 符号
 	sign := ""
-	if strings.HasPrefix(s, "-") || strings.HasPrefix(s, "+"){
+	if strings.HasPrefix(s, "-") || strings.HasPrefix(s, "+") {
 		sign = s[0:1]
 		s = s[1:]
 	}
@@ -43,7 +43,7 @@ func comma(s string) string {
 
 	if i == -1 {
 		return sign + insertComma(s)
-	}else {
+	} else {
 		return sign + insertComma(s[:i]) + s[i:]
 	}
 }
@@ -51,6 +51,8 @@ func comma(s string) string {
 // 本文の comma と同じ
 func insertComma(s string) string {
 	n := len(s)
-	if n <= 3 { return s }
+	if n <= 3 {
+		return s
+	}
 	return insertComma(s[:n-3]) + "," + s[n-3:]
 }

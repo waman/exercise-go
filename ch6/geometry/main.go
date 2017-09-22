@@ -10,17 +10,17 @@ package geometry
 
 import "math"
 
-type Point struct { X, Y float64 }
+type Point struct{ X, Y float64 }
 
 func Distance(p, q Point) float64 {
-	return math.Hypot(q.X - p.X, q.Y - p.Y)
+	return math.Hypot(q.X-p.X, q.Y-p.Y)
 }
 
 func (p Point) Distance(q Point) float64 {
-	return math.Hypot(q.X - p.X, q.Y - p.Y)
+	return math.Hypot(q.X-p.X, q.Y-p.Y)
 }
 
-func (p *Point) ScaleBy(factor float64){
+func (p *Point) ScaleBy(factor float64) {
 	p.X *= factor
 	p.Y *= factor
 }
@@ -45,11 +45,11 @@ func (path Path) Distance() float64 {
 	return sum
 }
 
-func (path Path) TranslateBy(offset Point, add bool){
+func (path Path) TranslateBy(offset Point, add bool) {
 	var op func(p, q Point) Point
 	if add {
 		op = Point.Add
-	}else{
+	} else {
 		op = Point.Sub
 	}
 	for i := range path {

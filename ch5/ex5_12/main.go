@@ -5,11 +5,11 @@
 package main
 
 import (
-	"golang.org/x/net/html"
-	"os"
 	"fmt"
-	"log"
 	"github.com/waman/exercise-go/ch5/htmlutil"
+	"golang.org/x/net/html"
+	"log"
+	"os"
 )
 
 // findlinks2 を参考にして第1章の fetch を実行しなくてよいようにしています。
@@ -20,7 +20,7 @@ import (
 //
 //   > go run ex5_4 https://golang.org
 //
-func main(){
+func main() {
 	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
@@ -29,17 +29,17 @@ func main(){
 	outline(doc)
 }
 
-func outline(doc *html.Node){
+func outline(doc *html.Node) {
 	var depth int
 
-	startElement := func(n *html.Node){
+	startElement := func(n *html.Node) {
 		if n.Type == html.ElementNode {
 			fmt.Printf("%*s<%s>\n", depth*2, "", n.Data)
 			depth++
 		}
 	}
 
-	endElement := func(n *html.Node){
+	endElement := func(n *html.Node) {
 		if n.Type == html.ElementNode {
 			depth--
 			fmt.Printf("%*s</%s>\n", depth*2, "", n.Data)

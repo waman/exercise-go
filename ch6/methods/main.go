@@ -3,11 +3,11 @@
 package main
 
 import (
-	. "github.com/waman/exercise-go/ch6/geometry"
 	"fmt"
-	)
+	. "github.com/waman/exercise-go/ch6/geometry"
+)
 
-func main(){
+func main() {
 	// メソッド値
 	p := Point{1, 2}
 	q := Point{4, 6}
@@ -32,7 +32,7 @@ func main(){
 	fmt.Println(distance(r, s))  // "5"
 
 	scale := (*Point).ScaleBy
-	fmt.Printf("%T\n", scale)  // "func(*Point, float64)"
+	fmt.Printf("%T\n", scale) // "func(*Point, float64)"
 	scale(&r, 2)
 	fmt.Println(r) // {2, 4}
 }

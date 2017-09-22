@@ -3,9 +3,9 @@
 package main
 
 import (
-	. "github.com/waman/exercise-go/ch2/tempconv"  // 接頭辞を省略
-	"fmt"
 	"flag"
+	"fmt"
+	. "github.com/waman/exercise-go/ch2/tempconv"
 )
 
 // *celsiusFlag は flag.Value インターフェースを満足します。
@@ -46,7 +46,7 @@ var temp = CelsiusFlag("temp", 20.0, "the temperature")
 //   > tempflag -temp -18C
 //   > tempflag -temp 212°F
 //
-func main(){
+func main() {
 	flag.Parse()
 	fmt.Println(*temp)
 }

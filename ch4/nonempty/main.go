@@ -6,14 +6,14 @@ package main
 
 import "fmt"
 
-func main(){
+func main() {
 	data := []string{"one", "", "three"}
-	fmt.Printf("%q\n", nonempty(data))  // `["one" "three"]`
-	fmt.Printf("%q\n", data)  // `["one" "three", "three"]`
+	fmt.Printf("%q\n", nonempty(data)) // `["one" "three"]`
+	fmt.Printf("%q\n", data)           // `["one" "three", "three"]`
 
 	data2 := []string{"one", "", "three"}
-	fmt.Printf("%q\n", nonempty2(data2))  // `["one" "three"]`
-	fmt.Printf("%q\n", data2)  // `["one" "three", "three"]`
+	fmt.Printf("%q\n", nonempty2(data2)) // `["one" "three"]`
+	fmt.Printf("%q\n", data2)            // `["one" "three", "three"]`
 }
 
 // nonempty は空文字列ではない文字列を保持するスライスを返します。

@@ -4,33 +4,36 @@
 // 複数の色で画像を生成するようにしなさい。
 package main
 
-import(
+import (
 	"image"
-	"math/rand"
-	"time"
-	"os"
-	"io"
-	"image/gif"
-	"math"
 	"image/color/palette"
+	"image/gif"
+	"io"
 	"log"
+	"math"
+	"math/rand"
+	"os"
+	"time"
 )
 
-func main(){
+func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	var w io.Writer
 
 	if len(os.Args) <= 1 {
 		w = os.Stdout
-	}else {
+	} else {
 		// 引数があればファイルに出力（os パッケージのドキュメント参照）
 		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		w = file
 	}
@@ -38,13 +41,13 @@ func main(){
 	lissajous(w)
 }
 
-func lissajous(out io.Writer){
+func lissajous(out io.Writer) {
 	const (
-		cycles = 5
-		res = 0.001
-		size = 100
+		cycles  = 5
+		res     = 0.001
+		size    = 100
 		nframes = 64
-		delay = 8
+		delay   = 8
 	)
 
 	freq := rand.Float64() * 3.0
@@ -65,5 +68,5 @@ func lissajous(out io.Writer){
 		anim.Delay = append(anim.Delay, delay)
 		anim.Image = append(anim.Image, img)
 	}
-	gif.EncodeAll(out, & anim)
+	gif.EncodeAll(out, &anim)
 }

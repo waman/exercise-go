@@ -3,27 +3,25 @@
 package main
 
 import (
-	"runtime"
 	"fmt"
 	"os"
+	"runtime"
 )
 
-func main(){
+func main() {
 	defer printStack()
 	f(3)
 }
 
-func printStack(){
+func printStack() {
 	var buf [4096]byte
 	n := runtime.Stack(buf[:], false)
 	os.Stdout.Write(buf[:n])
 }
 
 // defer1 の f と同じ。
-func f(x int){
-	fmt.Printf("f(%d)\n", x+0/x)  // x == 0 ならパニック
+func f(x int) {
+	fmt.Printf("f(%d)\n", x+0/x) // x == 0 ならパニック
 	defer fmt.Printf("defer %d\n", x)
-	f(x-1)
+	f(x - 1)
 }
-
-

@@ -5,16 +5,16 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strconv"
-	"fmt"
 
 	"github.com/waman/exercise-go/ch2/tempconv"
 	// プロジェクトのルートディレクトリを GOPATH に設定しておけば
 	// ch2/tempconv でインポートできると思うが・・・
 )
 
-func main(){
+func main() {
 	for _, arg := range os.Args[1:] {
 		t, err := strconv.ParseFloat(arg, 64)
 		if err != nil {

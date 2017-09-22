@@ -4,36 +4,36 @@
 // lissajous は、ランダムなリサジュー図形の GIF アニメーションを生成します。
 package main
 
-import(
+import (
 	"image"
 	"image/color"
-	"math/rand"
-	"time"
-	"os"
-	"io"
 	"image/gif"
+	"io"
 	"math"
+	"math/rand"
+	"os"
+	"time"
 )
 
 var palette = []color.Color{color.White, color.Black}
 
-const(
+const (
 	whiteIndex = 0
 	blackIndex = 1
 )
 
-func main(){
+func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	lissajous(os.Stdout)
 }
 
-func lissajous(out io.Writer){
+func lissajous(out io.Writer) {
 	const (
-		cycles = 5
-		res = 0.001
-		size = 100
+		cycles  = 5
+		res     = 0.001
+		size    = 100
 		nframes = 64
-		delay = 8
+		delay   = 8
 	)
 
 	freq := rand.Float64() * 3.0
@@ -51,5 +51,5 @@ func lissajous(out io.Writer){
 		anim.Delay = append(anim.Delay, delay)
 		anim.Image = append(anim.Image, img)
 	}
-	gif.EncodeAll(out, & anim)
+	gif.EncodeAll(out, &anim)
 }

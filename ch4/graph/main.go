@@ -5,7 +5,7 @@ package main
 import "fmt"
 
 // 適当に addEdge と hasEdge を使うコード
-func main(){
+func main() {
 	addEdge("a", "b")
 	addEdge("a", "c")
 	addEdge("b", "c")
@@ -18,7 +18,7 @@ func main(){
 
 var graph = make(map[string]map[string]bool)
 
-func addEdge(from, to string){
+func addEdge(from, to string) {
 	edges := graph[from]
 	if edges == nil {
 		edges = make(map[string]bool)

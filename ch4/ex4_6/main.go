@@ -5,15 +5,15 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"strconv"
 	"unicode"
 	"unicode/utf8"
-	"bytes"
 )
 
-func main(){
+func main() {
 	// 引数をバイトスライスへ変換
 	bs := ToUnquotedByteSlice(os.Args[1:])
 
@@ -33,7 +33,9 @@ func ToUnquotedByteSlice(strslice []string) []byte {
 	var buffer bytes.Buffer
 	for _, arg := range strslice {
 		unquoted, err := strconv.Unquote("\"" + arg + "\"")
-		if err != nil { fmt.Println(err) }
+		if err != nil {
+			fmt.Println(err)
+		}
 
 		buffer.WriteString(unquoted)
 	}
@@ -42,7 +44,8 @@ func ToUnquotedByteSlice(strslice []string) []byte {
 
 func compressWhiteSpaces(bs []byte) []byte {
 	n := len(bs)
-	if n == 0 { return bs
+	if n == 0 {
+		return bs
 	}
 
 	previousIsSpace, nextIndex := false, 0

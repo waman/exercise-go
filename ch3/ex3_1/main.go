@@ -6,38 +6,41 @@
 package main
 
 import (
-	"math"
 	"fmt"
 	"io"
-	"os"
 	"log"
+	"math"
+	"os"
 )
 
-const(
+const (
 	width, height = 600, 320
-	cells   = 100
-	xyrange = 30.0
-	xyscale = width / 2 / xyrange
-	zscale  = height * 0.4
-	angle   = math.Pi/6
+	cells         = 100
+	xyrange       = 30.0
+	xyscale       = width / 2 / xyrange
+	zscale        = height * 0.4
+	angle         = math.Pi / 6
 )
 
 var sin30, cos30 = math.Sin(angle), math.Cos(angle)
 
-func main(){
+func main() {
 	var w io.Writer
 
 	if len(os.Args) <= 1 {
 		w = os.Stdout
-	}else {
+	} else {
 		// 引数があればファイルに出力（os パッケージのドキュメント参照）
 		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		w = file
 	}
@@ -45,27 +48,35 @@ func main(){
 	surface(w)
 }
 
-func surface(w io.Writer){
-	fmt.Fprintf(w, "<svg xmlns='http://www.w3.org/2000/svg' " +
-	  "style='stroke: grey; fill: white; stroke-width:0.7' " +
-	  "width='%d' height='%d'>", width, height)
+func surface(w io.Writer) {
+	fmt.Fprintf(w, "<svg xmlns='http://www.w3.org/2000/svg' "+
+		"style='stroke: grey; fill: white; stroke-width:0.7' "+
+		"width='%d' height='%d'>", width, height)
 	for i := 0; i < cells; i++ {
 		for j := 0; j < cells; j++ {
 			ax, ay := corner(i+1, j)
 			// 有限でない値を返し得るのは y 座標だけ。
-			if IsNotFinite(ay) { continue }
+			if IsNotFinite(ay) {
+				continue
+			}
 
 			bx, by := corner(i, j)
-			if IsNotFinite(by) { continue }
+			if IsNotFinite(by) {
+				continue
+			}
 
 			cx, cy := corner(i, j+1)
-			if IsNotFinite(cy) { continue }
+			if IsNotFinite(cy) {
+				continue
+			}
 
-			dx, dy := corner(i+1,j+1)
-			if IsNotFinite(dy) { continue }
+			dx, dy := corner(i+1, j+1)
+			if IsNotFinite(dy) {
+				continue
+			}
 
 			fmt.Fprintf(w, "<polygon points='%g,%g,%g,%g,%g,%g,%g,%g'/>\n",
-			                ax, ay, bx, by, cx, cy, dx, dy)
+				ax, ay, bx, by, cx, cy, dx, dy)
 		}
 	}
 	fmt.Fprint(w, "</svg>")
@@ -80,7 +91,7 @@ func IsNotFinite(x float64) bool {
 // 第3返り値にエラーを返す方が Go のコードっぽいですが、まだエラーの作り方が
 // 現時点で出てきてないので、有限でない値をそのまま返しています
 // （本文の surface と同じコード）。
-func corner(i, j int)(float64, float64){
+func corner(i, j int) (float64, float64) {
 	x := xyrange * (float64(i)/cells - 0.5)
 	y := xyrange * (float64(j)/cells - 0.5)
 

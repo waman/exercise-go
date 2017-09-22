@@ -17,11 +17,11 @@
 package ex2_3
 
 import (
-	"testing"
 	"math/rand"
+	"testing"
 )
 
-func Test単一の式を使ったバージョンとループを使ったバージョンの結果が等しい(t *testing.T){
+func Test単一の式を使ったバージョンとループを使ったバージョンの結果が等しい(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		x := rand.Uint64()
 		if y, z := PopCount(x), PopCountByLoop(x); y != z {
@@ -32,13 +32,13 @@ func Test単一の式を使ったバージョンとループを使ったバー�
 
 var x = rand.Uint64()
 
-func Benchmark単一の式を使ったバージョン(b *testing.B){
+func Benchmark単一の式を使ったバージョン(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		PopCount(x)
 	}
 }
 
-func Benchmarkループを使ったバージョン(b *testing.B){
+func Benchmarkループを使ったバージョン(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		PopCountByLoop(x)
 	}

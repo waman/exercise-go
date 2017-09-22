@@ -5,15 +5,15 @@
 package main
 
 import (
-	"net/http"
-	"path"
-	"os"
+	"fmt"
 	"io"
 	"log"
-	"fmt"
+	"net/http"
+	"os"
+	"path"
 )
 
-func main(){
+func main() {
 	file, n, err := fetch(os.Args[1])
 	if err != nil {
 		log.Fatal(err)

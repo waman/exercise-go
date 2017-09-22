@@ -3,11 +3,11 @@
 package main
 
 import (
-	"time"
-	"text/tabwriter"
-	"os"
 	"fmt"
+	"os"
 	"sort"
+	"text/tabwriter"
+	"time"
 )
 
 type Track struct {
@@ -19,19 +19,21 @@ type Track struct {
 }
 
 var tracks = []*Track{
-	{"Go"        , "Delilah"       , "From the Roots Up", 2012, length("3m38s")},
-	{"Go"        , "Moby"          , "Moby"             , 1992, length("3m37s")},
-	{"Go Ahead"  , "Alicia Keys"   , "As I Am"          , 2007, length("4m36s")},
-	{"Ready 2 Go", "Martin Solveig", "Smash"            , 2011, length("4m24s")},
+	{"Go", "Delilah", "From the Roots Up", 2012, length("3m38s")},
+	{"Go", "Moby", "Moby", 1992, length("3m37s")},
+	{"Go Ahead", "Alicia Keys", "As I Am", 2007, length("4m36s")},
+	{"Ready 2 Go", "Martin Solveig", "Smash", 2011, length("4m24s")},
 }
 
 func length(s string) time.Duration {
 	d, err := time.ParseDuration(s)
-	if err != nil { panic(s) }
+	if err != nil {
+		panic(s)
+	}
 	return d
 }
 
-func main(){
+func main() {
 	printTracks(tracks)
 	fmt.Println()
 
@@ -68,21 +70,21 @@ func main(){
 
 	// IntsAreSorted
 	values := []int{3, 1, 4, 1}
-	fmt.Println(sort.IntsAreSorted(values))  // false
+	fmt.Println(sort.IntsAreSorted(values)) // false
 
 	sort.Ints(values)
-	fmt.Println(values)  // "[1 1 3 4]"
-	fmt.Println(sort.IntsAreSorted(values))  // true
+	fmt.Println(values)                     // "[1 1 3 4]"
+	fmt.Println(sort.IntsAreSorted(values)) // true
 
 	sort.Sort(sort.Reverse(sort.IntSlice(values)))
 	fmt.Println(values)
-	fmt.Println(sort.IntsAreSorted(values))  // false
+	fmt.Println(sort.IntsAreSorted(values)) // false
 }
 
-func printTracks(tracks []*Track){
+func printTracks(tracks []*Track) {
 	const format = "%v\t%v\t%v\t%v\t%v\t\n"
 	tw := new(tabwriter.Writer).Init(os.Stdout, 0, 8, 2, ' ', 0)
-	fmt.Fprintf(tw, format,"Title", "Artist", "Album", "Year", "Length")
+	fmt.Fprintf(tw, format, "Title", "Artist", "Album", "Year", "Length")
 	fmt.Fprintf(tw, format, "-----", "------", "-----", "----", "------")
 	for _, t := range tracks {
 		fmt.Fprintf(tw, format, t.Title, t.Artist, t.Album, t.Year, t.Length)
@@ -103,7 +105,7 @@ func (x byYear) Less(i, j int) bool { return x[i].Year < x[j].Year }
 func (x byYear) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
 
 type customSort struct {
-	t []*Track
+	t    []*Track
 	less func(x, y *Track) bool
 }
 

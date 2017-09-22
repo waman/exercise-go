@@ -17,11 +17,11 @@
 package ex2_4
 
 import (
-	"testing"
 	"math/rand"
+	"testing"
 )
 
-func Testテーブル参照を行ったバージョンと行っていないバージョンの結果が等しい(t *testing.T){
+func Testテーブル参照を行ったバージョンと行っていないバージョンの結果が等しい(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		x := rand.Uint64()
 		if y, z := PopCount(x), PopCountWithoutTable(x); y != z {
@@ -32,13 +32,13 @@ func Testテーブル参照を行ったバージョンと行っていないバ�
 
 var x = rand.Uint64()
 
-func Benchmarkテーブル参照を行うバージョン(b *testing.B){
+func Benchmarkテーブル参照を行うバージョン(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		PopCount(x)
 	}
 }
 
-func Benchmarkテーブル参照を行わないバージョン(b *testing.B){
+func Benchmarkテーブル参照を行わないバージョン(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		PopCountWithoutTable(x)
 	}

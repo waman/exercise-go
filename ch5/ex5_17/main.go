@@ -11,14 +11,14 @@
 package main
 
 import (
-	"golang.org/x/net/html"
-	"log"
 	"fmt"
 	"github.com/waman/exercise-go/ch5/htmlutil"
+	"golang.org/x/net/html"
+	"log"
 	"os"
 )
 
-func main(){
+func main() {
 	url := os.Args[1]
 	tags := os.Args[2:]
 
@@ -34,7 +34,7 @@ func main(){
 func ElementByTagName(doc *html.Node, tags ...string) []*html.Node {
 	var result []*html.Node
 
-	pre := func(n *html.Node){
+	pre := func(n *html.Node) {
 		if n.Type == html.ElementNode {
 			eName := n.Data
 			for _, tag := range tags {

@@ -4,15 +4,15 @@
 package main
 
 import (
-	"os"
 	"bufio"
 	"fmt"
+	"os"
 	"strings"
 )
 
 // コマンドライン引数（なければ標準入力）で与えられた文字列に isAnagram を
 // 適用して結果を表示する
-func main(){
+func main() {
 	args := os.Args[1:]
 	if len(args) == 0 {
 		input := bufio.NewScanner(os.Stdin)
@@ -32,12 +32,14 @@ func main(){
 }
 
 func isAnagram(s1, s2 string) bool {
-	if len(s1) != len(s2) { return false }
+	if len(s1) != len(s2) {
+		return false
+	}
 
 	for _, r := range s1 {
 		if i := strings.IndexRune(s2, r); i >= 0 {
 			s2 = s2[:i] + s2[i+1:]
-		}else{
+		} else {
 			return false
 		}
 	}

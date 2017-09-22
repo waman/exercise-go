@@ -6,9 +6,9 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"golang.org/x/net/html"
+	"os"
 )
 
 // 実行例：
@@ -17,15 +17,15 @@ import (
 //   > go build ./ch5/findlinks1
 //   > fetch https://golang.org | findlinks1
 //
-func main(){
+func main() {
 	doc, err := html.Parse(os.Stdin)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "findlinks1: %v\n", err)
 		os.Exit(1)
 	}
 
-	for i, link := range visit(nil, doc){
-		fmt.Printf("%2d: %s\n", i, link)  // リンク数も分かるように少し修正
+	for i, link := range visit(nil, doc) {
+		fmt.Printf("%2d: %s\n", i, link) // リンク数も分かるように少し修正
 	}
 }
 

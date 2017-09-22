@@ -6,9 +6,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
-	"log"
 )
 
 // 実装のテストは同ディレクトリの main_test.go で行っています。
@@ -21,7 +21,7 @@ import (
 //
 //   > go run ./ch5/ex5_15/main.go 1 3 7 2 5
 //
-func main(){
+func main() {
 	// コマンドライン引数を int スライスに変換
 	var argInts []int
 	for _, arg := range os.Args[1:] {
@@ -36,7 +36,7 @@ func main(){
 	mx, err := max(argInts...)
 	if err != nil {
 		fmt.Printf("%v\n", err)
-	}else {
+	} else {
 		fmt.Printf("最大値は %d\n", mx)
 	}
 
@@ -44,7 +44,7 @@ func main(){
 	mn, err := min(argInts...)
 	if err != nil {
 		fmt.Printf("%v\n", err)
-	}else {
+	} else {
 		fmt.Printf("最小値は %d\n", mn)
 	}
 }

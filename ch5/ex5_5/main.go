@@ -4,19 +4,19 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"github.com/waman/exercise-go/ch5/htmlutil"
 	"golang.org/x/net/html"
 	"os"
-	"fmt"
 	"strings"
-	"bufio"
 )
 
-func main(){
-  words, images, err := CountWordsAndImages(os.Args[1])
-  if err != nil {
-  	fmt.Fprintf(os.Stderr, "練習問題 5.5： %v\n", err)
-  	os.Exit(1)
+func main() {
+	words, images, err := CountWordsAndImages(os.Args[1])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "練習問題 5.5： %v\n", err)
+		os.Exit(1)
 	}
 
 	fmt.Printf("単語数： %d\n", words)
@@ -38,16 +38,16 @@ func CountWordsAndImages(url string) (words, images int, err error) {
 
 func countWordsAndImages(n *html.Node) (words, images int) {
 
-	var elementName string  // n が要素なら要素名、それ以外なら nil
+	var elementName string // n が要素なら要素名、それ以外なら nil
 	if n.Type == html.ElementNode {
 		elementName = n.Data
 	}
 
-  if elementName == "img" {
-  	images++
+	if elementName == "img" {
+		images++
 
-	}else if n.Type == html.TextNode {
-    input := bufio.NewScanner(strings.NewReader(n.Data))
+	} else if n.Type == html.TextNode {
+		input := bufio.NewScanner(strings.NewReader(n.Data))
 		input.Split(bufio.ScanWords)
 		for input.Scan() {
 			words++
@@ -65,4 +65,3 @@ func countWordsAndImages(n *html.Node) (words, images int) {
 
 	return
 }
-

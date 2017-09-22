@@ -2,7 +2,7 @@ package ex2_5
 
 var pc [256]byte
 
-func init(){
+func init() {
 	for i := range pc {
 		pc[i] = pc[i/2] + byte(i&1)
 	}
@@ -22,7 +22,7 @@ func PopCount(x uint64) int {
 func PopCountWithBitClear(x uint64) int {
 	bitCount := 0
 	for x != 0 {
-		x = x&(x-1)
+		x = x & (x - 1)
 		bitCount++
 	}
 	return bitCount

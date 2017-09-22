@@ -2,28 +2,31 @@ package main
 
 import (
 	"image"
-	"image/png"
-	"os"
 	"image/color"
-	"math/cmplx"
+	"image/png"
 	"io"
 	"log"
+	"math/cmplx"
+	"os"
 )
 
-func main(){
+func main() {
 	var w io.Writer
 
 	if len(os.Args) <= 1 {
 		w = os.Stdout
-	}else {
+	} else {
 		// 引数があればファイルに出力（os パッケージのドキュメント参照）
 		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		w = file
 	}
@@ -31,8 +34,8 @@ func main(){
 	outputImageC128(w)
 }
 
-func outputImageC128(w io.Writer){
-	const(
+func outputImageC128(w io.Writer) {
+	const (
 		xmin, xmax    = -0.5, 0
 		ymin, ymax    = -1, -0.5
 		width, height = 512, 512
@@ -52,13 +55,13 @@ func outputImageC128(w io.Writer){
 
 func mandelbrotC128(z complex128) color.Color {
 	const iterations = 200
-	const contrast   = 15
+	const contrast = 15
 
 	var v complex128
 	for n := uint8(0); n < iterations; n++ {
 		v = v*v + z
 		if cmplx.Abs(v) > 2 {
-			return color.Gray{ Y:255 - contrast*n }
+			return color.Gray{Y: 255 - contrast*n}
 		}
 	}
 	return color.Black

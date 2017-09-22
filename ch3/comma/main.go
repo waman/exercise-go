@@ -3,14 +3,14 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
-	"bufio"
 )
 
 // コマンドライン引数（なければ標準入力）で与えられた数値に comma を
 // 適用して表示する
-func main(){
+func main() {
 	args := os.Args[1:]
 	if len(args) == 0 {
 		input := bufio.NewScanner(os.Stdin)

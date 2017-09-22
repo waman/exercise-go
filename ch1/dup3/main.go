@@ -3,9 +3,9 @@
 package main
 
 import (
-	"os"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -16,7 +16,7 @@ import (
 //
 // commitors#.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
 // また、go get でコードを取得した場合は、上記のコマンドではうまくいかないかもしれません。
-func main(){
+func main() {
 	counts := make(map[string]int)
 	for _, filename := range os.Args[1:] {
 		data, err := ioutil.ReadFile(filename)

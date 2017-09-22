@@ -5,11 +5,11 @@
 package main
 
 import (
-	"os"
 	"fmt"
-	"golang.org/x/net/html"
 	"github.com/waman/exercise-go/ch5/htmlutil"
+	"golang.org/x/net/html"
 	"io"
+	"os"
 )
 
 // 次節の findlinks2 を参考にして第1章の fetch を実行しなくてよいようにしています。
@@ -20,7 +20,7 @@ import (
 //
 //   > go run ex5_3 https://golang.org
 //
-func main(){
+func main() {
 	doc, err := htmlutil.GetHTML(os.Args[1])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "練習問題 5.3： %v\n", err)
@@ -35,9 +35,11 @@ func main(){
 // 子要素に対しては visit でさらに走査を行います。
 func visit(w io.Writer, n *html.Node) {
 	if n.Type == html.ElementNode {
-		if n.Data == "script" || n.Data == "style" { return }
+		if n.Data == "script" || n.Data == "style" {
+			return
+		}
 
-	}else if n.Type == html.TextNode {
+	} else if n.Type == html.TextNode {
 		fmt.Fprint(w, n.Data)
 	}
 

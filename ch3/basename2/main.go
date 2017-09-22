@@ -3,15 +3,15 @@
 package main
 
 import (
-	"fmt"
-	"strings"
-	"os"
 	"bufio"
+	"fmt"
+	"os"
+	"strings"
 )
 
 // コマンドライン引数（なければ標準入力）で与えられた数値に basename を
 // 適用して表示する
-func main(){
+func main() {
 	args := os.Args[1:]
 	if len(args) == 0 {
 		input := bufio.NewScanner(os.Stdin)
@@ -38,5 +38,3 @@ func basename(s string) string {
 	}
 	return s
 }
-
-

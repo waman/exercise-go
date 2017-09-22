@@ -3,9 +3,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
-	"fmt"
 )
 
 // 実行例：
@@ -16,7 +16,7 @@ import (
 //   > fetch http://localhost:8000/list
 //   > fetch http://localhost:8000/price?item=socks
 //
-func main(){
+func main() {
 	db := database{"shoes": 50, "socks": 5}
 	mux := http.NewServeMux()
 	//mux.Handle("/list", http.HandlerFunc(db.list))
@@ -34,7 +34,7 @@ func (d dollars) String() string { return fmt.Sprintf("$%.2f", d) }
 
 type database map[string]dollars
 
-func (db database) list(w http.ResponseWriter, req *http.Request){
+func (db database) list(w http.ResponseWriter, req *http.Request) {
 	switch req.URL.Path {
 	case "/list":
 		for item, price := range db {
@@ -43,8 +43,7 @@ func (db database) list(w http.ResponseWriter, req *http.Request){
 	}
 }
 
-
-func (db database) price(w http.ResponseWriter, req *http.Request){
+func (db database) price(w http.ResponseWriter, req *http.Request) {
 	item := req.URL.Query().Get("item")
 	price, ok := db[item]
 	if !ok {

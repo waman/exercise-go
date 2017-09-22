@@ -3,11 +3,11 @@
 package main
 
 import (
-	"time"
-	"html/template"
-	"os"
-	"log"
 	"github.com/waman/exercise-go/ch4/github"
+	"html/template"
+	"log"
+	"os"
+	"time"
 )
 
 const templ = `{{.TotalCount}} issues:
@@ -23,15 +23,15 @@ func daysAgo(t time.Time) int {
 }
 
 var report = template.Must(template.New("issuelist").
-  Funcs(template.FuncMap{"daysAgo": daysAgo}).
-  Parse(templ))
+	Funcs(template.FuncMap{"daysAgo": daysAgo}).
+	Parse(templ))
 
 // 以下のように実行します：
 //
 //   > go build ./ch4/issuesreport
 //   > issuesreport repo:golang/go is:open json decoder
 //
-func main(){
+func main() {
 	result, err := github.SearchIssues(os.Args[1:])
 	if err != nil {
 		log.Fatal(err)

@@ -4,11 +4,11 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
-func main(){
+func main() {
 	// コマンドライン引数のコピーを作成
 	a := make([]string, len(os.Args)-1)
 	copy(a, os.Args[1:])
@@ -18,9 +18,11 @@ func main(){
 	fmt.Println(a)
 }
 
-func removeContinuousDuplicates(s []string) []string{
+func removeContinuousDuplicates(s []string) []string {
 	n := len(s)
-	if n == 0 { return s }
+	if n == 0 {
+		return s
+	}
 
 	current, nextIndex := s[0], 1
 	for i := 1; i < n; i++ {

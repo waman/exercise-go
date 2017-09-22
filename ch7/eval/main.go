@@ -5,13 +5,13 @@ package main
 import (
 	"fmt"
 	"math"
-	"text/scanner"
-	"strings"
 	"strconv"
+	"strings"
+	"text/scanner"
 )
 
 // Expr は算術式
-type Expr interface{
+type Expr interface {
 	Eval(env Env) float64
 }
 
@@ -33,8 +33,8 @@ func (l literal) Eval(_ Env) float64 {
 
 // unary は単項演算式を表します。
 type unary struct {
-	op rune  // +, -
-	x Expr
+	op rune // +, -
+	x  Expr
 }
 
 func (u unary) Eval(env Env) float64 {
@@ -49,7 +49,7 @@ func (u unary) Eval(env Env) float64 {
 
 // binary は二項演算式を表します。
 type binary struct {
-	op rune // +, -, *, /
+	op   rune // +, -, *, /
 	x, y Expr
 }
 
@@ -69,7 +69,7 @@ func (b binary) Eval(env Env) float64 {
 
 // call は関数呼び出しを表します。
 type call struct {
-	fn string  // "pow", "sin", "sqrt"
+	fn   string // "pow", "sin", "sqrt"
 	args []Expr
 }
 
@@ -86,7 +86,7 @@ func (c call) Eval(env Env) float64 {
 }
 
 type lexer struct {
-	scan scanner.Scanner
+	scan  scanner.Scanner
 	token rune
 }
 
@@ -119,7 +119,7 @@ func precedence(op rune) int {
 
 func Parse(input string) (_ Expr, err error) {
 	defer func() {
-		switch x := recover().(type){
+		switch x := recover().(type) {
 		case nil:
 		case lexPanic:
 			err = fmt.Errorf("%s", x)
@@ -206,6 +206,6 @@ func parsePrimary(lex *lexer) Expr {
 		lex.next()
 		return e
 	}
-  msg := fmt.Sprintf("unexpected %s", lex.describe())
-  panic(lexPanic(msg))
+	msg := fmt.Sprintf("unexpected %s", lex.describe())
+	panic(lexPanic(msg))
 }

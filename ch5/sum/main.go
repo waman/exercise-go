@@ -12,7 +12,7 @@ func sum(vals ...int) int {
 	return total
 }
 
-func main(){
+func main() {
 	fmt.Println(sum())
 	fmt.Println(sum(3))
 	fmt.Println(sum(1, 2, 3, 4))

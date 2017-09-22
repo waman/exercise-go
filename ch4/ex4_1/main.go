@@ -5,14 +5,16 @@ package main
 
 import (
 	"crypto/sha256"
-	"os"
 	"fmt"
+	"os"
 )
 
 var pc [256]byte
 
-func init(){
-	for i := range pc { pc[i] = pc[i/2] + byte(i&1)	}
+func init() {
+	for i := range pc {
+		pc[i] = pc[i/2] + byte(i&1)
+	}
 }
 
 // 2.6.2節参照
@@ -23,12 +25,12 @@ func PopCount(x byte) int {
 func PopCountDifference(x, y [32]byte) int {
 	sum := 0
 	for i := 0; i < 32; i++ {
-		sum += PopCount(x[i]^y[i])  // XOR (^) は異なるビットのみを1にする
+		sum += PopCount(x[i] ^ y[i]) // XOR (^) は異なるビットのみを1にする
 	}
 	return sum
 }
 
-func main(){
+func main() {
 	if len(os.Args) != 3 {
 		fmt.Println("2つの引数を指定してください。")
 		return

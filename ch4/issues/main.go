@@ -5,17 +5,17 @@
 package main
 
 import (
-	"os"
-	"log"
 	"fmt"
 	"github.com/waman/exercise-go/ch4/github"
+	"log"
+	"os"
 )
 
 // 実行例：
 //
 //   > go run ./ch4/issues/main.go repo:golang/go is:open json decoder
 //
-func main(){
+func main() {
 	result, err := github.SearchIssues(os.Args[1:])
 	if err != nil {
 		log.Fatal(err)

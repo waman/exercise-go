@@ -15,9 +15,9 @@
 package ex1_3
 
 import (
-	"testing"
-	"strings"
 	"strconv"
+	"strings"
+	"testing"
 )
 
 // 連結を行う文字列のスライス。
@@ -27,13 +27,13 @@ var strSlice []string
 // 文字列のスライスの初期化
 // init() メソッド、strconv.Itoa() メソッドも
 // 練習問題 1.3 の時点で出てきませんが。
-func init(){
+func init() {
 	for i := 0; i < 100; i++ {
 		strSlice = append(strSlice, strconv.Itoa(i))
 	}
 }
 
-func Benchmark非効率な可能性のあるバージョン(b *testing.B){
+func Benchmark非効率な可能性のあるバージョン(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		s, sep := "", ""
 		for _, arg := range strSlice {
@@ -43,8 +43,8 @@ func Benchmark非効率な可能性のあるバージョン(b *testing.B){
 	}
 }
 
-func BenchmarkStringsJoin(b *testing.B){
-	for i:= 0; i < b.N; i++ {
+func BenchmarkStringsJoin(b *testing.B) {
+	for i := 0; i < b.N; i++ {
 		strings.Join(strSlice, " ")
 	}
 }

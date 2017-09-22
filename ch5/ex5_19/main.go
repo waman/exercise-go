@@ -3,14 +3,14 @@
 // panic と recover を使って書きなさい。
 package main
 
-func main(){
+func main() {
 	println(f())
 }
 
 func f() (result int) {
-	type bailout struct { x int }
+	type bailout struct{ x int }
 
-	defer func(){
+	defer func() {
 		switch p := recover(); p {
 		case 10:
 			result = 10

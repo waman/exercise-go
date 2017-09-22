@@ -3,15 +3,15 @@
 package main
 
 import (
-	"golang.org/x/net/html"
 	"fmt"
-	"net/http"
-	"strings"
-	"os"
+	"golang.org/x/net/html"
 	"log"
+	"net/http"
+	"os"
+	"strings"
 )
 
-func main(){
+func main() {
 	title, err := title(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
@@ -26,10 +26,10 @@ func title(url string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()  // defer!
+	defer resp.Body.Close() // defer!
 
 	ct := resp.Header.Get("Content-Type")
-	if ct != "text/html" && !strings.HasPrefix(ct, "text/html;"){
+	if ct != "text/html" && !strings.HasPrefix(ct, "text/html;") {
 		return "", fmt.Errorf("%s has type %s, not text/html", url, ct)
 	}
 
@@ -46,7 +46,7 @@ func title(url string) (string, error) {
 func soleTitle(doc *html.Node) (title string, err error) {
 	type bailout struct{}
 
-	defer func(){
+	defer func() {
 		switch p := recover(); p {
 		case nil:
 			// パニックなし
@@ -55,17 +55,17 @@ func soleTitle(doc *html.Node) (title string, err error) {
 			err = fmt.Errorf("multiple title elements")
 		default:
 			// 予期しないパニック
-			 panic(p)
+			panic(p)
 		}
 	}()
 
-	forEachNode(doc, func(n *html.Node){
+	forEachNode(doc, func(n *html.Node) {
 		if n.Type == html.ElementNode && n.Data == "title" &&
 			n.FirstChild != nil {
-				if title != "" {
-					panic(bailout{})
-				}
-				title = n.FirstChild.Data
+			if title != "" {
+				panic(bailout{})
+			}
+			title = n.FirstChild.Data
 		}
 	}, nil)
 	if title == "" {
@@ -75,7 +75,7 @@ func soleTitle(doc *html.Node) (title string, err error) {
 }
 
 // outline2 のものと同じ。
-func forEachNode(n *html.Node, pre, post func(n *html.Node)){
+func forEachNode(n *html.Node, pre, post func(n *html.Node)) {
 	if pre != nil {
 		pre(n)
 	}

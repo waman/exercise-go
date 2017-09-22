@@ -4,16 +4,16 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
-	"os"
+	"fmt"
 	"io"
+	"os"
 	"unicode"
 )
 
 type Category string
 
-const(
+const (
 	Letter  Category = "L"
 	Number           = "N"
 	Symbol           = "(Symbol)"
@@ -28,7 +28,7 @@ const(
 //   > go run ./ch4/ex4_8/main.go < ./ch4/TheGoBlog-strings.txt
 //
 // go get でコードを取得した場合は、上記のコマンドではうまく動かないかもしれません。
-func main(){
+func main() {
 	counts := make(map[Category]int)
 	invalid := 0
 
@@ -57,13 +57,13 @@ func main(){
 		case unicode.IsSymbol(r):
 			counts[Symbol]++
 
-		case unicode.IsMark(r)  :
+		case unicode.IsMark(r):
 			counts[Mark]++
 
-		case unicode.IsPunct(r) :
+		case unicode.IsPunct(r):
 			counts[Punct]++
 
-		case unicode.IsSpace(r) :
+		case unicode.IsSpace(r):
 			counts[Space]++
 
 		default:

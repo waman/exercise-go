@@ -7,29 +7,32 @@ package main
 
 import (
 	"image"
-	"image/png"
-	"os"
 	"image/color"
-	"math/cmplx"
+	"image/png"
 	"io"
 	"log"
+	"math/cmplx"
+	"os"
 )
 
-func main(){
+func main() {
 
 	var w io.Writer
 
 	if len(os.Args) <= 1 {
 		w = os.Stdout
-	}else {
+	} else {
 		// 引数があればファイルに出力（os パッケージのドキュメント参照）
 		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		w = file
 	}
@@ -37,8 +40,8 @@ func main(){
 	outputImage(w)
 }
 
-func outputImage(w io.Writer){
-	const(
+func outputImage(w io.Writer) {
+	const (
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
 		width, height          = 1024, 1024
 	)
@@ -77,21 +80,21 @@ func outputImage(w io.Writer){
 // メソッド名は julia としています。
 func julia(z complex128) color.Color {
 	const iterations = 200
-	const contrast   = 15
+	const contrast = 15
 
 	for n := uint8(0); n < iterations; n++ {
 
 		if nearlyEqual(z, 1) {
-			return color.Gray{ Y:255 - contrast*n }
+			return color.Gray{Y: 255 - contrast*n}
 
 		} else if nearlyEqual(z, 1i) {
-			return color.RGBA{ R:255 - contrast*n, G:0xff, B:0xff, A:0xff }
+			return color.RGBA{R: 255 - contrast*n, G: 0xff, B: 0xff, A: 0xff}
 
 		} else if nearlyEqual(z, -1) {
-			return color.RGBA{ R:0xff, G:255 - contrast*n, B:0xff, A:0xff }
+			return color.RGBA{R: 0xff, G: 255 - contrast*n, B: 0xff, A: 0xff}
 
 		} else if nearlyEqual(z, -1i) {
-			return color.RGBA{ R:0xff, G:0xff, B:255 - contrast*n, A:0xff }
+			return color.RGBA{R: 0xff, G: 0xff, B: 255 - contrast*n, A: 0xff}
 		}
 
 		z = z*3/4 + 1.0/(z*z*z*4)
@@ -104,5 +107,5 @@ func julia(z complex128) color.Color {
 const delta = 0.1
 
 func nearlyEqual(z0, z1 complex128) bool {
-	return cmplx.Abs(z0 - z1) < delta
+	return cmplx.Abs(z0-z1) < delta
 }

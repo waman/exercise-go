@@ -5,15 +5,15 @@
 package links
 
 import (
-	"net/http"
 	"fmt"
 	"golang.org/x/net/html"
+	"net/http"
 )
 
 // Extract は指定された URL へ HTTP GET リクエストを行い、
 // レスポンスを HTML としてパースして、その HTML ドキュメント
 // 内のリンクを返します。
-func Extract(url string)([]string, error) {
+func Extract(url string) ([]string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func Extract(url string)([]string, error) {
 	}
 
 	var links []string
-	visitNode := func(n *html.Node){
+	visitNode := func(n *html.Node) {
 		if n.Type == html.ElementNode && n.Data == "a" {
 			for _, a := range n.Attr {
 				if a.Key != "href" {
@@ -38,7 +38,7 @@ func Extract(url string)([]string, error) {
 				}
 				link, err := resp.Request.URL.Parse(a.Val)
 				if err != nil {
-					continue  // 無視
+					continue // 無視
 				}
 				links = append(links, link.String())
 			}
@@ -49,7 +49,7 @@ func Extract(url string)([]string, error) {
 }
 
 // outline2 のものと同じ。
-func forEachNode(n *html.Node, pre, post func(n *html.Node)){
+func forEachNode(n *html.Node, pre, post func(n *html.Node)) {
 	if pre != nil {
 		pre(n)
 	}

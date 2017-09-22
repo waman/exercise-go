@@ -5,17 +5,17 @@
 package main
 
 import (
-	"net/http"
-	"log"
 	"fmt"
+	"log"
+	"net/http"
 )
 
-func main(){
+func main() {
 	http.HandleFunc("/", handler)
-	log.Println("Server1 starts...")  // 起動メッセージ
+	log.Println("Server1 starts...") // 起動メッセージ
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
-func handler(w http.ResponseWriter, r *http.Request){
+func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
 }

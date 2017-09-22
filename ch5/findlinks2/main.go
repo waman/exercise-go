@@ -3,10 +3,10 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"golang.org/x/net/html"
 	"net/http"
+	"os"
 )
 
 // 実行例：
@@ -15,7 +15,7 @@ import (
 //
 // パースしたいサイトの URL を複数指定できます。
 // また、findlinks1 のように ch1/fetch を使う必要はありません。
-func main(){
+func main() {
 	for _, url := range os.Args[1:] {
 		links, err := findLinks(url)
 		if err != nil {

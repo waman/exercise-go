@@ -7,35 +7,35 @@
 package main
 
 import (
-	"net/http"
-	"log"
-	"image/gif"
 	"image"
+	"image/color"
+	"image/gif"
+	"log"
 	"math"
 	"math/rand"
-	"image/color"
+	"net/http"
 	"strconv"
 )
 
 var palette = []color.Color{color.White, color.Black}
 
-const(
+const (
 	whiteIndex = 0
 	blackIndex = 1
 )
 
-func main(){
+func main() {
 	http.HandleFunc("/", handler)
 	log.Println("Lissajous Server starts...")
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
-func handler(w http.ResponseWriter, r *http.Request){
+func handler(w http.ResponseWriter, r *http.Request) {
 	const (
-		res = 0.001
-		size = 100
+		res     = 0.001
+		size    = 100
 		nframes = 64
-		delay = 8
+		delay   = 8
 	)
 
 	if err := r.ParseForm(); err != nil {
@@ -43,7 +43,7 @@ func handler(w http.ResponseWriter, r *http.Request){
 	}
 	cycles, err := strconv.Atoi(r.Form.Get("cycles"))
 	if err != nil {
-		cycles = 5  // クエリで cycles が指定されてなければ5とする
+		cycles = 5 // クエリで cycles が指定されてなければ5とする
 	}
 
 	freq := rand.Float64() * 3.0
@@ -63,5 +63,5 @@ func handler(w http.ResponseWriter, r *http.Request){
 		anim.Delay = append(anim.Delay, delay)
 		anim.Image = append(anim.Image, img)
 	}
-	gif.EncodeAll(w, & anim)  // ResponseWriter である w へ書き出す
+	gif.EncodeAll(w, &anim) // ResponseWriter である w へ書き出す
 }

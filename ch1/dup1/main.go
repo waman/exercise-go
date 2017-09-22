@@ -6,8 +6,8 @@ package main
 
 import (
 	"bufio"
-	"os"
 	"fmt"
+	"os"
 )
 
 // 実行例：
@@ -17,7 +17,7 @@ import (
 //
 // commitors#.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
 // また、go get でコードを取得した場合は、上記のコマンドではうまくいかないかもしれません。
-func main(){
+func main() {
 	counts := make(map[string]int)
 	input := bufio.NewScanner(os.Stdin)
 	for input.Scan() {

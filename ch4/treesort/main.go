@@ -3,13 +3,13 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strconv"
-	"fmt"
 )
 
 // コマンドライン引数から1つ以上の int 値をとって Sort() によってソートする
-func main(){
+func main() {
 	n := len(os.Args[1:])
 	if n == 0 {
 		fmt.Println("1つ以上の整数値の引数が必要です。")
@@ -36,7 +36,7 @@ type tree struct {
 }
 
 // Sort は values 内の値をその中でソートします。
-func Sort(values []int){
+func Sort(values []int) {
 	var root *tree
 	for _, v := range values {
 		root = add(root, v)
@@ -52,7 +52,7 @@ func add(t *tree, value int) *tree {
 	}
 	if value < t.value {
 		t.left = add(t.left, value)
-	}else{
+	} else {
 		t.right = add(t.right, value)
 	}
 	return t

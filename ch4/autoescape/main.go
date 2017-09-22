@@ -4,14 +4,14 @@ package main
 
 import (
 	"html/template"
-	"os"
 	"log"
+	"os"
 )
 
-func main(){
+func main() {
 	const templ = `<p>A: {{.A}}</p><p>B: {{.B}}</p>`
 	t := template.Must(template.New("escape").Parse(templ))
-	var data struct{
+	var data struct {
 		A string
 		B template.HTML
 	}

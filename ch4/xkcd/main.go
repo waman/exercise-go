@@ -4,12 +4,12 @@
 package main
 
 import (
-	"fmt"
 	"encoding/json"
-	"log"
+	"fmt"
 	"io/ioutil"
-	"strings"
+	"log"
 	"os"
+	"strings"
 )
 
 type Comic struct {
@@ -27,7 +27,9 @@ func main() {
 	indexFile := "xkcd-index.json"
 
 	index, err := readIndex(indexFile)
-	if err != nil { log.Fatalf("インデックスファイルの読み込みに失敗しました(%s): %s", indexFile, err) }
+	if err != nil {
+		log.Fatalf("インデックスファイルの読み込みに失敗しました(%s): %s", indexFile, err)
+	}
 
 	keyword := os.Args[1]
 	for _, comic := range *index {
@@ -41,11 +43,15 @@ func main() {
 
 func readIndex(s string) (*[]Comic, error) {
 	bs, err := ioutil.ReadFile(s)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	var index []Comic
 	err = json.Unmarshal(bs, &index)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	return &index, nil
 }

@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func main(){
+func main() {
 	fmt.Printf(join(os.Args[1:]...))
 }
 

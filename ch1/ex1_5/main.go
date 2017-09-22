@@ -6,40 +6,43 @@
 // います。
 package main
 
-import(
+import (
 	"image"
 	"image/color"
-	"math/rand"
-	"time"
-	"os"
-	"io"
 	"image/gif"
-	"math"
+	"io"
 	"log"
+	"math"
+	"math/rand"
+	"os"
+	"time"
 )
 
 var palette2 = []color.Color{color.Black, color.RGBA{0x00, 0xff, 0x00, 0xff}}
 
-const(
+const (
 	backgroundIndex = 0
-	lineIndex = 1
+	lineIndex       = 1
 )
 
-func main(){
+func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	var w io.Writer
 
 	if len(os.Args) <= 1 {
 		w = os.Stdout
-	}else {
+	} else {
 		// 引数があればファイルに出力（os パッケージのドキュメント参照）
 		file, err := os.OpenFile(os.Args[1], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer func(){
+		defer func() {
 			if cErr := file.Close(); err == nil && cErr != nil {
 				log.Fatal(err)
-			}}()
+			}
+		}()
 
 		w = file
 	}
@@ -47,13 +50,13 @@ func main(){
 	lissajous(w)
 }
 
-func lissajous(out io.Writer){
+func lissajous(out io.Writer) {
 	const (
-		cycles = 5
-		res = 0.001
-		size = 100
+		cycles  = 5
+		res     = 0.001
+		size    = 100
 		nframes = 64
-		delay = 8
+		delay   = 8
 	)
 
 	freq := rand.Float64() * 3.0

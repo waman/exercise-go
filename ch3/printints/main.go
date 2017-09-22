@@ -3,8 +3,8 @@
 package main
 
 import (
-	"fmt"
 	"bytes"
+	"fmt"
 )
 
 // intsToString は fmt.Sprint(values) に似ていますが
@@ -22,6 +22,6 @@ func intsToString(values []int) string {
 	return buf.String()
 }
 
-func main(){
+func main() {
 	fmt.Println(intsToString([]int{1, 2, 3}))
 }

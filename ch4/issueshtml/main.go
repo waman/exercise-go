@@ -3,10 +3,10 @@
 package main
 
 import (
-	"html/template"
 	"github.com/waman/exercise-go/ch4/github"
-	"os"
+	"html/template"
 	"log"
+	"os"
 )
 
 var issueList = template.Must(template.New("issuelist").Parse(`
@@ -36,7 +36,7 @@ var issueList = template.Must(template.New("issuelist").Parse(`
 //   >
 //   > issueshtml repo:golang/go 3133 10535 > issues2.thml
 //
-func main(){
+func main() {
 	result, err := github.SearchIssues(os.Args[1:])
 	if err != nil {
 		log.Fatal(err)

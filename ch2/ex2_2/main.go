@@ -6,48 +6,48 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"os"
 	"strconv"
-	"fmt"
-	"bufio"
 )
 
-const(
-	MetrePerFeet = 0.3048
+const (
+	MetrePerFeet     = 0.3048
 	KilogramPerPound = 0.45359237
 )
 
 // Temperature
-type Celsius    float64
+type Celsius float64
 type Fahrenheit float64
 
-func (c Celsius)    String() string { return fmt.Sprintf("%g°C", c) }
+func (c Celsius) String() string    { return fmt.Sprintf("%g°C", c) }
 func (f Fahrenheit) String() string { return fmt.Sprintf("%g°F", f) }
 
 func CToF(c Celsius) Fahrenheit { return Fahrenheit(c*9/5 + 32) }
-func FToC(f Fahrenheit) Celsius { return Celsius((f-32))*5/9 }
+func FToC(f Fahrenheit) Celsius { return Celsius((f - 32)) * 5 / 9 }
 
 // Length
 type Metre float64
-type Feet  float64
+type Feet float64
 
 func (d Metre) String() string { return fmt.Sprintf("%gm", d) }
-func (f Feet)  String() string { return fmt.Sprintf("%gft", f) }
+func (f Feet) String() string  { return fmt.Sprintf("%gft", f) }
 
-func MToFt(d Metre) Feet  { return Feet(d /MetrePerFeet) }
-func FtToM(ft Feet) Metre { return Metre(ft*MetrePerFeet) }
+func MToFt(d Metre) Feet  { return Feet(d / MetrePerFeet) }
+func FtToM(ft Feet) Metre { return Metre(ft * MetrePerFeet) }
 
 // Mass
 type Kilogram float64
-type Pound    float64
+type Pound float64
 
 func (m Kilogram) String() string { return fmt.Sprintf("%gkg", m) }
-func (p Pound)     String() string { return fmt.Sprintf("%glb", p) }
+func (p Pound) String() string    { return fmt.Sprintf("%glb", p) }
 
-func KgToLb(m Kilogram) Pound { return Pound(m/KilogramPerPound) }
-func LbToKg(p Pound) Kilogram { return Kilogram(p*KilogramPerPound) }
+func KgToLb(m Kilogram) Pound { return Pound(m / KilogramPerPound) }
+func LbToKg(p Pound) Kilogram { return Kilogram(p * KilogramPerPound) }
 
-func main(){
+func main() {
 	args := os.Args[1:]
 	if len(args) == 0 {
 		input := bufio.NewScanner(os.Stdin)
@@ -64,7 +64,7 @@ func main(){
 	}
 }
 
-func calculateConversions(s string){
+func calculateConversions(s string) {
 	x, err := strconv.ParseFloat(s, 64)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)

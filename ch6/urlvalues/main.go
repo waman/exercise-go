@@ -20,21 +20,21 @@ func (v Values) Get(key string) string {
 
 // Add は値をキーに追加します。
 // キーに関連づけられた既存の値に追加します。
-func (v Values) Add(key, value string){
+func (v Values) Add(key, value string) {
 	v[key] = append(v[key], value)
 }
 
-func main(){
+func main() {
 	m := Values{"lang": {"en"}}
 	m.Add("item", "1")
 	m.Add("item", "2")
 
-	fmt.Println(m.Get("lang"))  // "en"
-	fmt.Println(m.Get("q"))     // ""
-	fmt.Println(m.Get("item"))  // "1"
-	fmt.Println(m["item"])      // "[1 2]"
+	fmt.Println(m.Get("lang")) // "en"
+	fmt.Println(m.Get("q"))    // ""
+	fmt.Println(m.Get("item")) // "1"
+	fmt.Println(m["item"])     // "[1 2]"
 
 	m = nil
-	fmt.Println(m.Get("item"))  // ""
-	m.Add("item", "3")          // panic!
+	fmt.Println(m.Get("item")) // ""
+	m.Add("item", "3")         // panic!
 }

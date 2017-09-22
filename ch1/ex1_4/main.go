@@ -4,9 +4,9 @@
 package main
 
 import (
-	"os"
-	"fmt"
 	"bufio"
+	"fmt"
+	"os"
 )
 
 // 実行例：
@@ -21,10 +21,10 @@ import (
 //
 // commitors#.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
 // また、go get でコードを取得した場合は、上記のコマンドではうまくいかないかもしれません。
-func main(){
+func main() {
 	counts := make(map[string]int)
 	containingFiles := make(map[string]string)
-	  // 重複した文（counts のキーと同じ）とそれを含んでいるファイル名のマップ
+	// 重複した文（counts のキーと同じ）とそれを含んでいるファイル名のマップ
 	for _, arg := range os.Args[1:] {
 		f, err := os.Open(arg)
 		if err != nil {
@@ -33,7 +33,7 @@ func main(){
 		}
 		input := bufio.NewScanner(f)
 		localCounts := make(map[string]int)
-		  // 個々のファイル内での重複数を保持する。
+		// 個々のファイル内での重複数を保持する。
 		for input.Scan() {
 			s := input.Text()
 			counts[s]++

@@ -18,6 +18,7 @@ import (
 )
 
 const min = 1800
+
 var indexFile = "xkcd-index.json"
 
 type Comic struct {
@@ -37,12 +38,15 @@ type Comic struct {
 func main() {
 	// 引数があればファイルに出力（os パッケージのドキュメント参照）
 	file, err := os.OpenFile(indexFile, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-	if err != nil { log.Fatal(err) }
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	defer func(){
+	defer func() {
 		if cErr := file.Close(); err == nil && cErr != nil {
 			log.Fatal(err)
-		}}()
+		}
+	}()
 
 	createIndex(file)
 }
@@ -98,7 +102,7 @@ func downloadComic(no int) (*Comic, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
+	defer resp.Body.Close() // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, err

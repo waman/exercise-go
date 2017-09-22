@@ -4,8 +4,8 @@ package main
 
 import (
 	"flag"
-	"time"
 	"fmt"
+	"time"
 )
 
 var period = flag.Duration("period", 1*time.Second, "sleep period")
@@ -16,7 +16,7 @@ var period = flag.Duration("period", 1*time.Second, "sleep period")
 //   > sleep -period 50ms
 //   > sleep -period 1m30s
 //
-func main(){
+func main() {
 	flag.Parse()
 	fmt.Printf("Sleeping fo %v...", *period)
 	time.Sleep(*period)

@@ -6,9 +6,9 @@
 package main
 
 import (
-	"os"
-	"fmt"
 	"bufio"
+	"fmt"
+	"os"
 )
 
 // 実行例：
@@ -18,12 +18,12 @@ import (
 //
 // commitors#.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
 // また、go get でコードを取得した場合は、上記のコマンドではうまくいかないかもしれません。
-func main(){
+func main() {
 	counts := make(map[string]int)
 	files := os.Args[1:]
 	if len(files) == 0 {
 		countLines(os.Stdin, counts)
-	}else{
+	} else {
 		for _, arg := range files {
 			f, err := os.Open(arg)
 			if err != nil {
@@ -41,7 +41,7 @@ func main(){
 	}
 }
 
-func countLines(f *os.File, counts map[string]int){
+func countLines(f *os.File, counts map[string]int) {
 	input := bufio.NewScanner(f)
 
 	for input.Scan() {

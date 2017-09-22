@@ -5,12 +5,12 @@
 package main
 
 import (
-	"unicode/utf8"
 	"bufio"
-	"os"
-	"io"
 	"fmt"
+	"io"
+	"os"
 	"unicode"
+	"unicode/utf8"
 )
 
 // 実行例
@@ -21,7 +21,7 @@ import (
 // これは The Go Blog の記事 "https://blog.golang.org/strings"
 // から拝借しました（いくつか漢字などが含まれている、ちょうどよさげな内容だったため）。
 // go get でコードを取得した場合は、上記のコマンドではうまく動かないかもしれません。
-func main(){
+func main() {
 	counts := make(map[rune]int)
 	var utflen [utf8.UTFMax + 1]int
 	invalid := 0

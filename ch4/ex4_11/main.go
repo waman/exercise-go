@@ -6,17 +6,17 @@
 package main
 
 import (
-	"net/http"
-	"fmt"
 	"encoding/json"
-	"log"
-	"os"
-	"strings"
-	"io/ioutil"
-	"io"
+	"fmt"
 	"github.com/waman/exercise-go/ch4/github"
+	"io"
+	"io/ioutil"
+	"log"
+	"net/http"
 	"net/url"
+	"os"
 	"strconv"
+	"strings"
 )
 
 // GitHub のアクセストークンを作業ディレクトリ上のファイル ".github_access_token" に保存して
@@ -43,7 +43,7 @@ import (
 //
 //   > go run ./ch4/ex4_11/main.go close waman/exercise-go 1
 //
-func main(){
+func main() {
 
 	if len(os.Args) < 2 {
 		user()
@@ -54,7 +54,7 @@ func main(){
 	ss := strings.Split(os.Args[2], "/")
 	repo := url.QueryEscape(ss[0]) + "/" + url.QueryEscape(ss[1])
 
-	switch os.Args[1]{
+	switch os.Args[1] {
 	case "create":
 		CreateIssue(repo, os.Args[3], os.Args[4])
 	case "get":
@@ -79,24 +79,26 @@ func getAccessToken() string {
 	return string(bs)
 }
 
-func createRequest(method, urlStr string, body io.Reader) (*http.Response, error){
+func createRequest(method, urlStr string, body io.Reader) (*http.Response, error) {
 	req, err := http.NewRequest(method, urlStr, body)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
-	req.Header.Add("Authorization", "token " + accessToken)
+	req.Header.Add("Authorization", "token "+accessToken)
 
 	client := &http.Client{}
 	return client.Do(req)
 }
 
 // create, update, close が成功したときに、メッセージと対象 URL を表示します。
-func printResult(resp *http.Response, successMessage string){
+func printResult(resp *http.Response, successMessage string) {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var issueURL struct{URL string}
+	var issueURL struct{ URL string }
 	if err := json.Unmarshal(body, &issueURL); err != nil {
 		log.Fatal(err)
 		return
@@ -106,13 +108,13 @@ func printResult(resp *http.Response, successMessage string){
 }
 
 // 自分の GitHub アカウント情報を取得します。　デフォルトの動作。
-func user(){
+func user() {
 	resp, err := createRequest("GET", "https://api.github.com/user", nil)
 	if err != nil {
 		log.Fatalf("アカウント情報を取得できませんでした： %s", err)
 		return
 	}
-	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
+	defer resp.Body.Close() // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
 		log.Fatalf("アカウント情報を取得できませんでした： %s", resp.Status)
@@ -129,9 +131,9 @@ func user(){
 }
 
 // CreateIssue は GitHub のイシューを作成します。
-func CreateIssue(repo, title, message string){
+func CreateIssue(repo, title, message string) {
 	createIssuesURL := fmt.Sprintf("https://api.github.com/repos/%s/issues?title=%s",
-		                             repo, url.QueryEscape(title))
+		repo, url.QueryEscape(title))
 	issueBody := fmt.Sprintf("{\"title\":\"%s\", \"body\":\"%s\"}", title, message)
 
 	resp, err := createRequest("POST", createIssuesURL, strings.NewReader(issueBody))
@@ -139,7 +141,7 @@ func CreateIssue(repo, title, message string){
 		log.Fatalf("イシューを作成できませんでした： %s", err)
 		return
 	}
-	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
+	defer resp.Body.Close() // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusCreated {
 		log.Fatalf("イシューを作成できませんでした： %s", resp.Status)
@@ -150,14 +152,14 @@ func CreateIssue(repo, title, message string){
 }
 
 // GetIssues は GitHub のイシューを取得します
-func GetIssues(repo string){
+func GetIssues(repo string) {
 	getIssuesURL := fmt.Sprintf("https://api.github.com/repos/%s/issues", repo)
 	resp, err := createRequest("GET", getIssuesURL, nil)
 	if err != nil {
 		log.Fatalf("イシューを取得できませんでした： %s", err)
 		return
 	}
-	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
+	defer resp.Body.Close() // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
 		log.Fatalf("イシューを取得できませんでした： %s", resp.Status)
@@ -176,7 +178,7 @@ func GetIssues(repo string){
 }
 
 // UpdateIssue は GitHub のイシューを更新します。
-func UpdateIssue(repo, no, title, message string){
+func UpdateIssue(repo, no, title, message string) {
 	if _, err := strconv.Atoi(no); err != nil {
 		log.Fatal(err)
 		return
@@ -190,7 +192,7 @@ func UpdateIssue(repo, no, title, message string){
 		log.Fatalf("イシューを更新できませんでした： %s", err)
 		return
 	}
-	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
+	defer resp.Body.Close() // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
 		log.Fatalf("イシューを更新できませんでした： %s", resp.Status)
@@ -201,7 +203,7 @@ func UpdateIssue(repo, no, title, message string){
 }
 
 // CloseIssue は GitHub のイシューをクローズします。
-func CloseIssue(repo, i string){
+func CloseIssue(repo, i string) {
 	if _, err := strconv.Atoi(i); err != nil {
 		log.Fatal(err)
 		return
@@ -215,7 +217,7 @@ func CloseIssue(repo, i string){
 		log.Fatalf("イシューをクローズできませんでした： %s", err)
 		return
 	}
-	defer resp.Body.Close()  // 5.8 節「遅延関数呼び出し」参照
+	defer resp.Body.Close() // 5.8 節「遅延関数呼び出し」参照
 
 	if resp.StatusCode != http.StatusOK {
 		log.Fatalf("イシューをクローズできませんでした： %s", resp.Status)

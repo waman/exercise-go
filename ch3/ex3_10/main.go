@@ -4,14 +4,15 @@
 package main
 
 import (
-	"os"
 	"bufio"
-	"fmt"
 	"bytes"
+	"fmt"
+	"os"
 )
+
 // コマンドライン引数（なければ標準入力）で与えられた数値に comma を
 // 適用して表示する
-func main(){
+func main() {
 	args := os.Args[1:]
 	if len(args) == 0 {
 		input := bufio.NewScanner(os.Stdin)
@@ -30,12 +31,16 @@ func main(){
 
 func comma(s string) string {
 	length := len(s)
-	if length < 3 { return s }
+	if length < 3 {
+		return s
+	}
 
 	var buf bytes.Buffer
 
-	i := length%3
-	if i == 0 { i = 3 }
+	i := length % 3
+	if i == 0 {
+		i = 3
+	}
 	buf.WriteString(s[:i])
 	s = s[i:]
 
@@ -46,4 +51,3 @@ func comma(s string) string {
 
 	return buf.String()
 }
-

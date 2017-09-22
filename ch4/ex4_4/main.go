@@ -4,9 +4,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
-	"log"
 )
 
 // 最後の引数を除く引数を入力の文字列スライスとし、整数を与える最後の引数分だけ回転させます。
@@ -16,7 +16,7 @@ import (
 //   > go run ./ch4/ex4_4/main.go a b c d e 3
 //   > [d e a b c]
 //
-func main(){
+func main() {
 	// コマンドライン引数のコピーを作成
 	n := len(os.Args)
 	a := make([]string, n-2)
@@ -35,23 +35,25 @@ func main(){
 
 func rotate(s []string, n int) {
 	N := len(s)
-	m := n%N
+	m := n % N
 	if N == 0 || N == 1 || m == 0 {
 		return
 	}
 
-	if m < 0 { m = m+N }
+	if m < 0 {
+		m = m + N
+	}
 	doRotate(s, m)
 }
 
-func doRotate(s []string, n int){
+func doRotate(s []string, n int) {
 	N := len(s)
 	i := 0
-	for m := N-n; i < m; i++ {  // i+n = N-1 まで
+	for m := N - n; i < m; i++ { // i+n = N-1 まで
 		s[i], s[i+n] = s[i+n], s[i]
 	}
 
-	if m := N%n; m != 0 {
+	if m := N % n; m != 0 {
 		doRotate(s[i:], n-m)
 	}
 }

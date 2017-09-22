@@ -4,15 +4,15 @@
 package main
 
 import (
-	"net/http"
-	"path"
-	"os"
-	"io"
 	"fmt"
+	"io"
 	"log"
+	"net/http"
+	"os"
+	"path"
 )
 
-func main(){
+func main() {
 	file, n, err := fetch(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
@@ -40,7 +40,7 @@ func fetch(url string) (filename string, n int64, err error) {
 	// テスト用：上記3行の代わりにエラーを返す Writer/Closer を作成
 	//var f = writeCloser{}
 
-	defer func(){
+	defer func() {
 		if closeErr := f.Close(); err == nil {
 			err = closeErr
 		}

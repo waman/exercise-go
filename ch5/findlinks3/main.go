@@ -4,15 +4,15 @@ package main
 
 import (
 	"fmt"
+	"github.com/waman/exercise-go/ch5/links"
 	"log"
 	"os"
-	"github.com/waman/exercise-go/ch5/links"
 )
 
 // breadthFirst は worklist 内の個々の項目に対して f を呼び出します。
 // f から返された全ての項目は worklist へ追加されます。
 // f は、それぞれの項目に対して高々一度しか呼び出されません。
-func breadthFirst(f func(item string) []string, worklist []string){
+func breadthFirst(f func(item string) []string, worklist []string) {
 	seen := make(map[string]bool)
 	for len(worklist) > 0 {
 		items := worklist
@@ -35,6 +35,6 @@ func crawl(url string) []string {
 	return list
 }
 
-func main(){
+func main() {
 	breadthFirst(crawl, os.Args[1:])
 }

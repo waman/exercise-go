@@ -5,13 +5,13 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
-	"bytes"
 	"unicode/utf8"
 )
 
-func main(){
+func main() {
 	// 引数をバイトスライスへ変換
 	bs := ToByteSlice(os.Args[1:])
 
@@ -30,23 +30,24 @@ func ToByteSlice(strslice []string) []byte {
 	return buffer.Bytes()
 }
 
-func reverse(bs []byte){
+func reverse(bs []byte) {
 	n := len(bs)
-	if n == 0 || n == 1 { return }
+	if n == 0 || n == 1 {
+		return
+	}
 
 	for i := 0; i < n; {
 		_, size := utf8.DecodeRune(bs[i:])
-		reverseBytes(bs[i:i+size])  // ルーン内の反転
+		reverseBytes(bs[i : i+size]) // ルーン内の反転
 		i += size
 	}
-	reverseBytes(bs)  // 全体の反転
+	reverseBytes(bs) // 全体の反転
 }
 
 // []byte スライスを byte 列として反転する。
 // 本文の reverse の []byte 版。
-func reverseBytes(bs []byte){
+func reverseBytes(bs []byte) {
 	for i, j := 0, len(bs)-1; i < j; i, j = i+1, j-1 {
 		bs[i], bs[j] = bs[j], bs[i]
 	}
 }
-

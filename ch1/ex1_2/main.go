@@ -4,11 +4,11 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
-func main(){
+func main() {
 	for i, arg := range os.Args {
 		fmt.Println(i, ":", arg)
 		// Println() にはコンマで区切って任意個の引数を渡せる
