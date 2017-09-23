@@ -45,6 +45,7 @@ var temp = CelsiusFlag("temp", 20.0, "the temperature")
 //   > tempflag
 //   > tempflag -temp -18C
 //   > tempflag -temp 212°F
+//   > tempflag -help
 //
 func main() {
 	flag.Parse()

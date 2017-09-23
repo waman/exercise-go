@@ -1,12 +1,18 @@
-// 【練習問題 7.6】
-// 絶対温度 (Kelvin) のサポートを tempflag へ追加しなさい。
+// 【練習問題 7.7】
+// 20.0 のデフォルト値は°を含んでいないのに、ヘルプメッセージが°を含んでいる
+// 理由を説明しなさい。
 package main
 
 import (
 	"flag"
 	"fmt"
-	. "github.com/waman/exercise-go/ch2/ex2_1/tempconv"
 )
+
+type Celsius float64
+
+func (c Celsius) String() string {
+	return fmt.Sprintf("摂氏%g度", c)  // 出力する文字列を変更
+}
 
 // *celsiusFlag は flag.Value インターフェースを満足します。
 type celsiusFlag struct {
@@ -20,12 +26,6 @@ func (f *celsiusFlag) Set(s string) error {
 	switch unit {
 	case "C", "°C":
 		f.Celsius = Celsius(value)
-		return nil
-	case "F", "°F":
-		f.Celsius = FToC(Fahrenheit(value))
-		return nil
-	case "K":
-		f.Celsius = KToC(Kelvin(value))
 		return nil
 	}
 	return fmt.Errorf("invalid temperature %q", s)
@@ -42,14 +42,14 @@ func CelsiusFlag(name string, value Celsius, usage string) *Celsius {
 
 var temp = CelsiusFlag("temp", 20.0, "the temperature")
 
-// 実行例：
+// ヘルプメッセージを出力するには以下を実行します：
 //
-//   > go build ./ch7/ex7_6
-//   > tempflag
-//   > tempflag -temp -18C
-//   > tempflag -temp 212°F
-//   > tempflag -temp 273K
+//   > go run ./ch7/tempflag/main.go -help
 //
+// Celsius 型に対するメソッド String() を変更すればデフォルト値として
+// 表示される値も変更されるので、CelsiusFlag に指定したデフォルト値 20.0
+// は Celcius 型に変換され、ヘルプメッセージはその String() メソッドを
+// 呼び出しているのが原因。
 func main() {
 	flag.Parse()
 	fmt.Println(*temp)
