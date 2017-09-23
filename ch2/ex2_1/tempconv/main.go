@@ -11,7 +11,7 @@ import (
 // このファイルのコードは【練習問題 7.6】で使うためにパッケージとして公開しています。
 // コード例は main_test.go にあります。　このコードは
 //
-//   > go test ./ch2/ex2_1
+//   > go test ./ch2/ex2_1/tempconv
 //
 // によってテストできます。
 type Kelvin float64
