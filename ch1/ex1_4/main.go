@@ -11,13 +11,10 @@ import (
 
 // 実行例：
 //
-//   > cd ch1
-//   > go run ./ex1_4/main.go commitors1.txt commitors2.txt commitors3.txt commitors4.txt
-//   4       Quasilyte [commitors1.txt]
-//   5       martisch [commitors2.txt]
-//   2       mpx [commitors3.txt][commitors4.txt]
-//   5       mdempsky [commitors1.txt][commitors2.txt][commitors3.txt]
-//   2       aarzilli [commitors1.txt]
+//   > go run ./ch1/ex1_4/main.go ./resources/commitors1.txt ./resources/commitors2.txt ^
+//   > ./resources/commitors3.txt ./resources/commitors4.txt
+//
+// PowerShell や bash のリダイレクトを使えばもっと短くできますが。
 //
 // commitors#.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
 // また、go get でコードを取得した場合は、上記のコマンドではうまくいかないかもしれません。

@@ -15,7 +15,7 @@ import (
 
 // 実行例
 //
-//   > go run ./ch4/charcount/main.go < ./ch4/TheGoBlog-strings.txt
+//   > go run ./ch4/charcount/main.go < ./resources/TheGoBlog-strings.txt
 //
 // ch4 ディレクトリ下に TheGoBlog-strings.txt を置いていますが、
 // これは The Go Blog の記事 "https://blog.golang.org/strings"

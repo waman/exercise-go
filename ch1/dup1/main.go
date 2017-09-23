@@ -8,18 +8,30 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"io"
+	"log"
 )
 
 // 実行例：
 //
-//   > cd ch1
-//   > go run ./dup1/main.go < commitors1.txt
+//   > go run ./ch1/dup1/main.go ./resources/commitors1.txt
 //
-// commitors#.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
+// commitors1.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
 // また、go get でコードを取得した場合は、上記のコマンドではうまくいかないかもしれません。
 func main() {
+	var r io.Reader
+	if len(os.Args) == 1 {
+		r = os.Stdin
+	}else{
+		f, err := os.Open(os.Args[1])
+		if err != nil {
+			log.Fatal(err)
+		}
+		r = f
+	}
+
 	counts := make(map[string]int)
-	input := bufio.NewScanner(os.Stdin)
+	input := bufio.NewScanner(r)
 	for input.Scan() {
 		counts[input.Text()]++
 	}

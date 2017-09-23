@@ -11,8 +11,7 @@ import (
 
 // 実行例：
 //
-//   > cd ch1
-//   > go run ./dup2/main.go commitors1.txt commitors2.txt
+//   > go run ./ch1/dup2/main.go resources/commitors1.txt resources/commitors2.txt
 //
 // commitors#.txt ファイルは、golang の GitHub から、適当な日のコミット実行者を拝借してリストアップしたものです。
 // また、go get でコードを取得した場合は、上記のコマンドではうまくいかないかもしれません。

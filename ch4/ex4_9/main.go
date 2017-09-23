@@ -15,7 +15,7 @@ import (
 
 // 実行例：
 //
-//   > go run ./ch4/ex4_9/main.go ./ch4/TheGoBlog-strings.txt
+//   > go run ./ch4/ex4_9/main.go ./resources/TheGoBlog-strings.txt
 //
 // go get でコードを取得した場合は、上記のコマンドではうまく動かないかもしれません。
 func main() {

@@ -9,6 +9,7 @@ import (
 	"io"
 	"os"
 	"unicode"
+	"log"
 )
 
 type Category string
@@ -25,14 +26,25 @@ const (
 
 // 実行例
 //
-//   > go run ./ch4/ex4_8/main.go < ./ch4/TheGoBlog-strings.txt
+//   > go run ./ch4/ex4_8/main.go ./resources/TheGoBlog-strings.txt
 //
 // go get でコードを取得した場合は、上記のコマンドではうまく動かないかもしれません。
 func main() {
+	var r io.Reader
+	if len(os.Args) == 1 {
+		r = os.Stdin
+	}else{
+		f, err := os.Open(os.Args[1])
+		if err != nil {
+			log.Fatal(err)
+		}
+		r = f
+	}
+
 	counts := make(map[Category]int)
 	invalid := 0
 
-	in := bufio.NewReader(os.Stdin)
+	in := bufio.NewReader(r)
 	for {
 		r, n, err := in.ReadRune()
 		if err == io.EOF {
