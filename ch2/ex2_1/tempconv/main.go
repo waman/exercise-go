@@ -14,6 +14,7 @@ import (
 //   > go test ./ch2/ex2_1/tempconv
 //
 // によってテストできます。
+
 type Kelvin float64
 type Celsius float64
 type Fahrenheit float64
