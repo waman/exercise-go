@@ -10,7 +10,6 @@ import (
 	"bytes"
 )
 
-// コマンドライン引数から1つ以上の int 値をとって Sort() によってソートする
 func main() {
 	// 引数の処理
 	n := len(os.Args[1:])
