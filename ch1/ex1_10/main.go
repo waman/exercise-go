@@ -32,15 +32,11 @@ func main() {
 		w = os.Stdout
 	default:
 		// 第2引数があればファイルに出力（os パッケージのドキュメント参照）
-		file, err := os.OpenFile(os.Args[2], os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-		if err != nil {
-			log.Fatal(err)
-		}
+		file, err := os.Create(os.Args[2])
+		if err != nil { log.Fatal(err) }
 
 		defer func() {
-			if cErr := file.Close(); err == nil && cErr != nil {
-				log.Fatal(err)
-			}
+			if err := file.Close(); err != nil { log.Fatal(err) }
 		}()
 
 		w = file

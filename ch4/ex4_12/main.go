@@ -36,16 +36,11 @@ type Comic struct {
 //
 // 作成したインデックスファイルを使用して URL と内容を表示するプログラムは xkcd 参照。
 func main() {
-	// 引数があればファイルに出力（os パッケージのドキュメント参照）
-	file, err := os.OpenFile(indexFile, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
-	if err != nil {
-		log.Fatal(err)
-	}
+	file, err := os.Create(indexFile)
+	if err != nil { log.Fatal(err) }
 
 	defer func() {
-		if cErr := file.Close(); err == nil && cErr != nil {
-			log.Fatal(err)
-		}
+		if err := file.Close(); err != nil { log.Fatal(err) }
 	}()
 
 	createIndex(file)
